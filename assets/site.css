@@ -26,7 +26,7 @@ p{margin:0 0 1rem} .muted{color:var(--muted)}
 /* nav */
 .nav{position:sticky;top:0;z-index:50;background:color-mix(in srgb,var(--bg) 86%,transparent);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
 .nav .wrap{display:flex;align-items:center;gap:20px;height:60px}
-.brand{font-weight:700;text-decoration:none;letter-spacing:-.01em;display:flex;align-items:center;gap:9px;white-space:nowrap}
+.brand{font-family:Oswald,"Arial Narrow",Inter,sans-serif;font-weight:300;font-size:1.32rem;text-transform:uppercase;letter-spacing:.16em;text-decoration:none;display:flex;align-items:center;gap:12px;white-space:nowrap;line-height:1}
 .brand i{width:22px;height:22px;border-radius:3px;background:linear-gradient(135deg,var(--accent-2),var(--accent))}
 .nav nav{display:flex;gap:4px;margin-left:auto;overflow-x:auto;scrollbar-width:none}
 .nav nav a{padding:7px 12px;border-radius:4px;text-decoration:none;font-size:.9rem;color:var(--muted);white-space:nowrap}
