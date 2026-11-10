@@ -268,3 +268,15 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:12px 32px;justify-content:space-bet
   .nav nav.open a:nth-child(4){transition-delay:.16s}.nav nav.open a:nth-child(5){transition-delay:.2s}.nav nav.open a:nth-child(6){transition-delay:.24s}
 }
 @media(prefers-reduced-motion:reduce){.menu-btn,.menu-btn span,.nav nav,.nav nav a{transition:none !important}}
+
+/* ---------- overview cards: hover lift (the reveal rule used to override the old one) ---------- */
+.card.reveal.in{transition:opacity .6s,transform .32s cubic-bezier(.2,.8,.2,1),box-shadow .32s ease,border-color .32s ease}
+.card.reveal.in:hover,.card.reveal.in:focus-visible{transform:translateY(-9px);border-color:color-mix(in srgb,var(--accent) 60%,var(--line));
+  box-shadow:0 18px 40px color-mix(in srgb,var(--accent) 22%,transparent),var(--shadow)}
+.card .ico{transition:transform .35s cubic-bezier(.3,1.5,.5,1),box-shadow .3s ease}
+.card:hover .ico,.card:focus-visible .ico{transform:translateY(-3px) scale(1.12);box-shadow:0 8px 22px rgba(0,0,0,.3)}
+.card h3{transition:color .25s ease}
+.card:hover h3{color:var(--accent-text)}
+.card .tag{transition:border-color .25s ease,color .25s ease}
+.card:hover .tag{border-color:color-mix(in srgb,var(--accent) 50%,var(--line));color:var(--ink)}
+@media(prefers-reduced-motion:reduce){.card.reveal.in,.card .ico{transition:none}.card.reveal.in:hover{transform:none}.card:hover .ico{transform:none}}
