@@ -72,6 +72,21 @@ window.PORTAL = {
     else { root.classList.add("theme-anim"); apply(); setTimeout(() => root.classList.remove("theme-anim"), 320); }
   });
 
+  /* ---------- small-screen menu ---------- */
+  (function () {
+    const btn = $("#menu"), nav = $("#navmenu");
+    const set = (open) => {
+      nav.classList.toggle("open", open);
+      btn.setAttribute("aria-expanded", String(open));
+      btn.setAttribute("aria-label", open ? "Close menu" : "Open menu");
+    };
+    btn.addEventListener("click", (e) => { e.stopPropagation(); set(!nav.classList.contains("open")); });
+    nav.addEventListener("click", (e) => { if (e.target.closest("a")) set(false); });           // choosing a section closes it
+    document.addEventListener("click", (e) => { if (!e.target.closest(".nav")) set(false); });  // click outside closes it
+    document.addEventListener("keydown", (e) => { if (e.key === "Escape") set(false); });
+    matchMedia("(min-width: 761px)").addEventListener("change", (m) => { if (m.matches) set(false); });
+  })();
+
   /* ---------- reveal + scrollspy ---------- */
   const io = new IntersectionObserver((es) => es.forEach((e) => {
     if (e.isIntersecting) { e.target.classList.add("in"); io.unobserve(e.target); }
