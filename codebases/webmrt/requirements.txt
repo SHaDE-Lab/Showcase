@@ -1,0 +1,9 @@
+numpy>=1.26
+pandas>=2.2
+scikit-learn>=1.4
+lightgbm>=4.3
+pvlib>=0.10
+astral==3.2
+pytz
+Pillow>=10
+pytest>=8

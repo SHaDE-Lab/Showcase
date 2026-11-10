@@ -1,0 +1,27 @@
+/* Cool Routes demo — uses the portal's CSS variables (light/dark). */
+.crd{display:grid;gap:12px}
+.crd .demo-status{margin:0;color:var(--muted);font-size:.9rem}
+.crd-bar{display:flex;flex-wrap:wrap;gap:8px}
+.crd-chip{border:1px solid var(--line);background:var(--surface);color:var(--ink);padding:7px 13px;border-radius:4px;font:inherit;font-size:.86rem;cursor:pointer}
+.crd-chip[aria-pressed="true"]{background:var(--accent);border-color:transparent;color:var(--accent-ink);font-weight:600}
+.crd-ghost{background:transparent;color:var(--muted)}
+.crd-ghost:hover{color:var(--ink)}
+.crd-map{position:relative;border-radius:4px;overflow:hidden;border:1px solid var(--line);background:var(--bld);aspect-ratio:1/1;max-width:100%}
+.crd-map canvas{width:100%;height:100%;cursor:crosshair;display:block}
+.crd-tip{position:absolute;left:10px;bottom:10px;padding:4px 10px;border-radius:4px;font-size:.74rem;background:rgba(10,14,30,.72);color:#fff;pointer-events:none}
+.crd-legend{display:grid;grid-template-columns:auto 1fr auto;gap:10px;align-items:center;font-size:.76rem;color:var(--muted)}
+.crd-legend i{height:9px;border-radius:3px;background:linear-gradient(90deg,#08306b,#08519c,#2171b5,#6baed6,#c6dbef,#ffffcc,#ffeda0,#fed976,#feb24c,#fd8d3c,#fc4e2a,#800026)}
+.crd-ctl{display:grid;grid-template-columns:auto 1fr auto;gap:10px;align-items:center;font-size:.88rem}
+.crd-ctl .crd-val{grid-column:1/-1;text-align:center;color:var(--muted);font-size:.8rem;margin-top:-4px}
+.crd-ctl input{width:100%;accent-color:var(--accent)}
+.crd-read{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.crd-card{border:1px solid var(--line);border-radius:4px;padding:10px 12px;display:grid;gap:2px}
+.crd-card small{display:flex;align-items:center;gap:7px;color:var(--muted);font-size:.78rem}
+.crd-card b{font-size:1.15rem;font-variant-numeric:tabular-nums}
+.crd-card span{font-size:.84rem;color:var(--muted);font-variant-numeric:tabular-nums}
+.crd-sw{width:22px;height:0;border-top:3px dashed #8a8f9c;display:inline-block}
+.crd-sw.c{border-top:4px solid var(--cool)}
+.crd-delta,.crd-msg{grid-column:1/-1;margin:0;font-size:.92rem}
+.crd-note{margin:0;font-size:.78rem;color:var(--muted);line-height:1.5}
+.crd-note code{font-size:.95em}
+@media (max-width:480px){.crd-read{grid-template-columns:1fr}}

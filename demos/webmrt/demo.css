@@ -1,0 +1,58 @@
+/* WebMRT demo: uses the portal's CSS variables (light and dark) */
+.uhwm{color:var(--ink);font-size:.95rem}
+.uhwm h4{margin:16px 0 8px;font-size:.78rem;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);font-weight:600}
+.uhwm h4:first-child{margin-top:0}
+.uhwm-banner{margin:0 0 16px;padding:10px 14px;border:1px solid var(--line);border-left:4px solid var(--accent-2);border-radius:4px;background:color-mix(in srgb,var(--accent-2) 8%,var(--surface));font-size:.85rem;line-height:1.5}
+.uhwm-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.1fr);gap:clamp(16px,3vw,32px);align-items:start}
+@media(max-width:760px){.uhwm-grid{grid-template-columns:1fr}}
+.uhwm canvas{width:100%;display:block;border-radius:4px;touch-action:none}
+.uhwm .uhwm-pad{max-width:340px;margin:0 auto;cursor:grab;border:1px solid var(--line);background:var(--surface)}
+.uhwm .uhwm-pad:active{cursor:grabbing}
+.uhwm .uhwm-curve,.uhwm .uhwm-scatter{margin-top:8px;border:1px solid var(--line);background:var(--surface)}
+.uhwm-fr{display:flex;flex-wrap:wrap;gap:6px 16px;justify-content:center;margin:10px 0 4px;font-size:.85rem;color:var(--muted)}
+.uhwm-fr b{color:var(--ink);font-variant-numeric:tabular-nums}
+.uhwm-fr i{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:6px}
+.uhwm-fr .s{background:#3f86e6}.uhwm-fr .t{background:#2f7d46}.uhwm-fr .b{background:var(--bld)}
+.uhwm-warn{margin:6px 0 0;font-size:.8rem;color:#8a3b00;background:#ffe3c2;border-radius:3px;padding:6px 10px}
+.uhwm-row{display:grid;grid-template-columns:8.5em minmax(0,1fr) 4.6em;gap:10px;align-items:center;margin:8px 0}
+.uhwm-row input[type=range]{width:100%;accent-color:var(--accent)}
+.uhwm-row input[type=date]{grid-column:2/4;font:inherit;padding:5px 8px;border:1px solid var(--line);border-radius:3px;background:var(--surface);color:var(--ink)}
+.uhwm-row output{text-align:right;font-variant-numeric:tabular-nums;color:var(--muted);font-size:.85rem}
+.uhwm-row.chk{display:flex;gap:8px;align-items:center}
+.uhwm-seg{display:flex;gap:6px;margin:2px 0 6px 0}
+.uhwm-seg button{padding:4px 14px;border-radius:3px;border:1px solid var(--line);background:transparent;color:var(--ink);cursor:pointer;font:inherit;font-size:.8rem}
+.uhwm-seg button[aria-pressed="true"]{background:var(--accent);border-color:transparent;color:var(--accent-ink,#fff);font-weight:600}
+.uhwm-big{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
+.uhwm-big .num{font-size:clamp(2.6rem,6vw,3.6rem);font-weight:700;letter-spacing:-.03em;font-variant-numeric:tabular-nums;color:var(--accent)}
+.uhwm-big .unit{font-weight:600}.uhwm-big .f{color:var(--muted)}
+.uhwm-sub{color:var(--muted);font-size:.85rem;margin:2px 0 4px}
+.uhwm-cap{font-size:.76rem;color:var(--muted);margin:6px 0 0;line-height:1.45}
+.uhwm-about{margin-top:20px;border-top:1px solid var(--line);padding-top:12px}
+.uhwm-about summary{cursor:pointer;font-weight:600}
+.uhwm-metrics table{width:100%;border-collapse:collapse;margin:12px 0;font-size:.85rem}
+.uhwm-metrics th,.uhwm-metrics td{padding:7px 8px;border-bottom:1px solid var(--line);text-align:right;font-variant-numeric:tabular-nums}
+.uhwm-metrics th:first-child,.uhwm-metrics td:first-child{text-align:left}
+.uhwm-metrics small{color:var(--muted)}
+.uhwm .uhwm-scatter{max-width:none}
+.uhwm :focus-visible{outline:3px solid var(--accent-2);outline-offset:2px}
+
+/* smaller through-the-day plot, table sits under it */
+.uhwm .uhwm-curve{max-width:none;width:100%}
+.uhwm .uhwm-curve-cap{font-size:.76rem;max-width:none}
+.uhwm-col .uhwm-metrics{margin-top:18px}
+.uhwm-col .uhwm-metrics table{margin-top:0}
+
+.uhwm-pair{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:clamp(16px,3vw,32px);align-items:start;margin-top:14px}
+.uhwm-pair figure{margin:0}
+.uhwm .uhwm-imp{width:100%;display:block;margin-top:8px;border:1px solid var(--line);background:var(--surface);border-radius:4px}
+@media(max-width:760px){.uhwm-pair{grid-template-columns:1fr}}
+
+.uhwm .uhwm-h{margin:16px 0 6px;font-size:.78rem;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);font-weight:600}
+.uhwm-pair .uhwm-h{margin-top:0}
+
+/* equal-height columns: the left column stretches, its two groups spread out, and the triangle is larger */
+.uhwm-grid{align-items:stretch}
+.uhwm-col{display:flex;flex-direction:column}
+.uhwm-left{justify-content:space-between;gap:20px}
+.uhwm .uhwm-pad{max-width:460px;width:100%}
+@media(max-width:760px){.uhwm-left{gap:0}}

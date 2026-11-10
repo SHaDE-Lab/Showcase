@@ -1,0 +1,45 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it and the VisionMRT paper."
+title: "VisionMRT: physics-based mean radiant temperature from 360-degree imagery (example release)"
+type: software
+# TODO: confirm the author list for the software release.
+authors:
+  - family-names: Shaeri
+    given-names: Pouya
+  - family-names: Middel
+    given-names: Ariane
+  - family-names: AlKhaled
+    given-names: Saud
+repository-code: "https://github.com/SHaDE-Lab/Showcase/tree/main/codebases/visionmrt"
+license: Apache-2.0
+# TODO: add the journal DOI (and volume/year) here and in README.md once the accepted paper is published.
+preferred-citation:
+  type: article
+  title: "VisionMRT: Physics-Based Outdoor Thermal Exposure and Comfort Modeling using Photographs and 3D Reconstruction"
+  authors:
+    - family-names: Middel
+      given-names: Ariane
+    - family-names: Shaeri
+      given-names: Pouya
+    - family-names: Woo
+      given-names: Ryan T.
+    - family-names: Krayenhoff
+      given-names: E. Scott
+  journal: "Sustainable Cities and Society"
+  status: in-press
+  url: "https://papers.ssrn.com/sol3/papers.cfm?abstract_id=7191292"
+references:
+  - type: conference-paper
+    title: "A Multimodal Physics-Informed Neural Network Approach for Mean Radiant Temperature Modeling"
+    authors:
+      - family-names: Shaeri
+        given-names: Pouya
+      - family-names: AlKhaled
+        given-names: Saud
+      - family-names: Middel
+        given-names: Ariane
+    collection-title: "Proceedings of the IEEE/CVF International Conference on Computer Vision (ICCV) Workshops"
+    start: 6606
+    end: 6615
+    year: 2025
+    url: "https://ieeexplore.ieee.org/document/11375311"

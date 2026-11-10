@@ -1,0 +1,32 @@
+--- a/src/components/Map/WebMapComponent.tsx
++++ b/src/components/Map/WebMapComponent.tsx
+@@ -85,6 +85,13 @@
+     if (!view.map.findLayerById('buildings')) view.map.add(buildingsLayer)
+   }
+ 
++  // Optional deep link: ?start=COOR&end=CRTVC pre-selects the two buildings through the same
++  // search widgets a user would type into (building code or name). The route then draws as usual.
++  const prefillFromUrl = (widget: Search, param: 'start' | 'end') => {
++    const term = new URLSearchParams(window.location.search).get(param)
++    if (term) widget.search(term)
++  }
++
+   const addStartSearch = () => {
+     /* BUILDING SEARCH */
+     const startSearchWidgetSource = new LayerSearchSource({
+@@ -128,6 +135,7 @@
+ 
+     if (!view.ui.find('searchWidgetStart'))
+       view.ui.add(searchWidgetStart, 'top-right')
++    view.when(() => prefillFromUrl(searchWidgetStart, 'start'))
+   }
+ 
+   const addEndSearch = () => {
+@@ -171,6 +179,7 @@
+ 
+     if (!view.ui.find('searchWidgetEnd'))
+       view.ui.add(searchWidgetEnd, 'top-right')
++    view.when(() => prefillFromUrl(searchWidgetEnd, 'end'))
+   }
+   const addSearchWidgets = () => {
+     addStartSearch()

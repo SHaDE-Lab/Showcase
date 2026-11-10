@@ -1,0 +1,64 @@
+/* VisionMRT demo widget: uses the portal's CSS variables (light and dark). */
+.vmd { display: grid; grid-template-columns: minmax(0, 1fr); gap: 16px; color: var(--ink); }
+.vmd * { box-sizing: border-box; }
+.vmd-seg { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 8px; }
+.vmd-seg button, .vmd-tabs button {
+  font: inherit; color: var(--ink); background: var(--surface); border: 1px solid var(--line);
+  border-radius: 4px; padding: 10px 12px; cursor: pointer; text-align: left; line-height: 1.25;
+}
+.vmd-seg button small { display: block; color: var(--muted); font-size: .78rem; margin-top: 2px; }
+.vmd-seg button[aria-pressed="true"] { background: var(--accent); border-color: transparent; color: var(--accent-ink, #fff); }
+.vmd-seg button[aria-pressed="true"] small { color: inherit; opacity: .85; }
+.vmd-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr); gap: 16px; align-items: start; }
+@media (max-width: 860px) { .vmd-grid { grid-template-columns: minmax(0, 1fr); } }
+.vmd-panel { background: var(--surface); border: 1px solid var(--line); border-radius: 6px; padding: 14px; min-width: 0; }
+.vmd-tabs { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 10px; }
+.vmd-tabs button { padding: 6px 12px; border-radius: 4px; font-size: .85rem; text-align: center; }
+.vmd-tabs.sm { margin: 0; } .vmd-tabs.sm button { padding: 3px 10px; font-size: .8rem; }
+.vmd-tabs button[aria-pressed="true"] { background: color-mix(in srgb, var(--accent) 16%, transparent); border-color: var(--accent); font-weight: 600; }
+.vmd-imgbox { position: relative; border-radius: 4px; overflow: hidden; border: 1px solid var(--line);
+  background: color-mix(in srgb, var(--ink) 5%, var(--surface)); }
+.vmd-imgbox.net { aspect-ratio: 4 / 3; } .vmd-imgbox.fish { aspect-ratio: 1; max-width: 420px; margin: 0 auto; }
+.vmd-imgbox img { position: absolute; inset: 0; width: 100%; height: 100%; image-rendering: pixelated; }
+.vmd-faces { position: absolute; inset: 0; display: grid; grid-template-columns: repeat(4, 1fr); grid-template-rows: repeat(3, 1fr); pointer-events: none; }
+.vmd-faces span { font-size: .68rem; font-weight: 600; color: #fff; text-shadow: 0 1px 3px rgba(0,0,0,.8); padding: 4px 6px; letter-spacing: .04em; text-transform: uppercase; }
+.vmd-cap { font-size: .82rem; color: var(--muted); margin: 10px 0 8px; line-height: 1.4; }
+.vmd-legend { display: flex; flex-wrap: wrap; gap: 4px 12px; font-size: .75rem; color: var(--muted); }
+.vmd-legend i { display: inline-block; width: 10px; height: 10px; border-radius: 3px; margin-right: 5px; vertical-align: -1px; border: 1px solid rgba(0,0,0,.15); }
+.vmd-legend i.shade { background: #39405f; }
+.vmd-ctrl { display: grid; grid-template-columns: auto 1fr 4.2em; gap: 12px; align-items: center; margin-top: 14px; font-size: .9rem; }
+.vmd-ctrl output { text-align: right; font-variant-numeric: tabular-nums; color: var(--muted); }
+.vmd input[type=range] { width: 100%; accent-color: var(--accent); }
+.vmd-kpis { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 14px; }
+@media (max-width: 520px) { .vmd-kpis { grid-template-columns: repeat(2, 1fr); } }
+.vmd-kpi { border: 1px solid var(--line); border-radius: 4px; padding: 8px 10px; }
+.vmd-kpi small { display: block; color: var(--muted); font-size: .72rem; }
+.vmd-kpi b { font-size: 1.05rem; font-variant-numeric: tabular-nums; }
+.vmd-kpi.hot b { color: #ff7a4d; } .vmd-kpi.cool b { color: var(--cool); }
+.vmd-chead { display: flex; justify-content: space-between; align-items: center; gap: 8px; flex-wrap: wrap;
+  font-size: .75rem; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); font-weight: 600; margin: 8px 0 6px; }
+.vmd-chart svg { width: 100%; height: auto; display: block; overflow: visible; }
+.vmd-chart .grid { stroke: var(--line); stroke-width: 1; }
+.vmd-chart .tick, .vmd-chart .unit { fill: var(--muted); font-size: 11px; font-family: inherit; }
+.vmd-chart .cursor { stroke: var(--ink); stroke-width: 1; stroke-dasharray: 3 3; opacity: .55; }
+.vmd-chart .series { fill: none; stroke-width: 2; opacity: .4; }
+.vmd-chart .series.sel { stroke-width: 2.6; opacity: 1; }
+.vmd-chart .series.a { stroke: var(--accent); } .vmd-chart .series.b { stroke: var(--cool); }
+.vmd-chart .series.dot { fill: var(--surface); }
+.vmd-chart .series.dot.a { fill: var(--accent); } .vmd-chart .series.dot.b { fill: var(--cool); }
+.vmd-chart .series.dot.hollow { fill: var(--surface); stroke-width: 2; }
+.vmd-chart .vmd-sw { fill: var(--accent-2); } .vmd-chart .vmd-lw { fill: color-mix(in srgb, var(--muted) 60%, var(--surface)); }
+.vmd-chart rect.cur { stroke: var(--ink); stroke-width: 1.5; }
+.vmd-note { font-size: .82rem; color: var(--muted); margin: 0; line-height: 1.5; }
+.vmd-note.sm { font-size: .74rem; margin-top: 4px; }
+.vmd-note a { color: var(--accent); } .vmd-note code { font-size: .78rem; }
+
+/* hover, press and focus states for the site toggle and the view tabs */
+.vmd-seg button, .vmd-tabs button { transition: transform .15s ease, box-shadow .15s ease, background-color .15s ease, border-color .15s ease; }
+.vmd-seg button:hover { transform: translateY(-2px); border-color: var(--accent); box-shadow: 0 6px 18px color-mix(in srgb, var(--accent) 28%, transparent); }
+.vmd-seg button:hover:not([aria-pressed="true"]) { background: color-mix(in srgb, var(--accent) 10%, var(--surface)); }
+.vmd-seg button[aria-pressed="true"]:hover { filter: brightness(1.08); }
+.vmd-seg button:active, .vmd-tabs button:active { transform: translateY(0) scale(.985); box-shadow: none; }
+.vmd-tabs button:hover:not([aria-pressed="true"]) { border-color: var(--accent); background: color-mix(in srgb, var(--accent) 10%, var(--surface)); }
+.vmd-seg button:focus-visible, .vmd-tabs button:focus-visible { outline: 3px solid var(--accent-2); outline-offset: 2px; }
+@media (prefers-reduced-motion: reduce) { .vmd-seg button, .vmd-tabs button { transition: none; } .vmd-seg button:hover { transform: none; } }

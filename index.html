@@ -1,0 +1,331 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Projects Showcase | SHaDE Lab</title>
+<meta name="description" content="Cool Routes, WebMRT and VisionMRT: published, open research tools for human thermal exposure and mean radiant temperature from the SHaDE Lab at Arizona State University.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap">
+<script>try{document.documentElement.dataset.theme=localStorage.getItem("theme")||"dark"}catch(e){document.documentElement.dataset.theme="dark"}</script>
+<link rel="stylesheet" href="assets/site.css">
+</head>
+<body>
+
+<header class="nav">
+  <div class="wrap">
+    <a class="brand" href="#top"><i></i> Projects Showcase</a>
+    <nav aria-label="Sections">
+      <a href="#projects" class="keep">Projects</a>
+      <a href="#coolroutes">Cool Routes</a>
+      <a href="#visionmrt">VisionMRT</a>
+      <a href="#webmrt">WebMRT</a>
+      <a href="#publications" class="keep">Papers</a>
+      <a href="#availability">Code &amp; Data</a>
+    </nav>
+    <button id="theme" aria-label="Toggle light/dark theme" title="Toggle theme">◐</button>
+  </div>
+</header>
+
+<main id="top">
+
+<!-- ============ HERO ============ -->
+<div class="hero">
+  <canvas id="heroCanvas" aria-hidden="true"></canvas>
+  <div class="wrap">
+    <div class="eyebrow">SHaDE Lab · Arizona State University</div>
+    <h1>Measuring and modeling <em>human heat exposure</em></h1>
+    <p class="lead">Three peer-reviewed tools that turn weather, LiDAR and street-level imagery into mean radiant temperature, the part of outdoor heat that air temperature misses. Try the live tools, read the papers, explore the methods.</p>
+    <div class="cta">
+      <a class="btn primary" href="#projects">Explore the projects</a>
+      <a class="btn" href="#publications">Read the papers</a>
+    </div>
+    <div class="stats">
+      <div><b>3</b><span>published tools</span></div>
+      <div><b>3</b><span>input modalities: weather · LiDAR · imagery</span></div>
+      <div><b>MRT · UTCI · PET</b><span>thermal exposure outputs</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- ============ OVERVIEW ============ -->
+<section id="projects">
+  <div class="wrap">
+    <div class="head reveal">
+      <div class="eyebrow">Projects</div>
+      <h2>One question, three ways to answer it</h2>
+      <p>How hot does a place <em>feel</em> to a person standing in it? Mean radiant temperature (MRT) captures the radiation a body absorbs from sun, sky and surfaces, and it often drives outdoor thermal stress more than air temperature does. Each tool below estimates it from a different kind of data.</p>
+    </div>
+    <div class="cards">
+      <a class="card reveal" href="#coolroutes">
+        <div class="ico g1">CR</div><h3>Cool Routes</h3>
+        <p class="muted">Walking routes on ASU’s campus that trade a little distance for a lot less radiant heat, driven by hourly SOLWEIG forecasts.</p>
+        <div class="tags"><span class="tag">Routing</span><span class="tag">SOLWEIG</span><span class="tag">LiDAR</span></div>
+      </a>
+      <a class="card reveal" href="#visionmrt">
+        <div class="ico g3">VM</div><h3>VisionMRT</h3>
+        <p class="muted">Physics-based MRT, UTCI and PET from a single 360° image: segmentation, depth, shadow casting and a surface energy balance.</p>
+        <div class="tags"><span class="tag">Computer vision</span><span class="tag">Physics</span><span class="tag">360° imagery</span></div>
+      </a>
+      <a class="card reveal" href="#webmrt">
+        <div class="ico g2">WM</div><h3>WebMRT</h3>
+        <p class="muted">A web tool that predicts summertime MRT from standard meteorological inputs using machine learning trained on MaRTy field data.</p>
+        <div class="tags"><span class="tag">Machine learning</span><span class="tag">LightGBM</span><span class="tag">Meteorology</span></div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ============ COOL ROUTES ============ -->
+<section id="coolroutes" class="alt">
+  <div class="wrap">
+    <div class="proj-top">
+      <div class="reveal">
+        <div class="eyebrow">Project 01 · Routing</div>
+        <h2>Cool Routes</h2>
+        <p class="muted" style="margin-top:14px;font-size:1.05rem">Real-time human thermal exposure routing. Cool Routes finds walking paths across the ASU campus that minimize radiant heat load and compares them side by side with the shortest path.</p>
+        <ul class="feat">
+          <li><span><b>Hourly MRT forecasts.</b> SOLWEIG is run on LiDAR-derived surface models, with the next 72 hours buffered so routes are instant.</span></li>
+          <li><span><b>Heat-weighted network.</b> MRT is sampled along every segment of the OpenStreetMap walking graph and used as an edge cost.</span></li>
+          <li><span><b>Cool vs. shortest.</b> Every query returns both routes with distance and mean MRT, plus a map overlay of the MRT raster and KML export.</span></li>
+          <li><span><b>Production stack.</b> React + ArcGIS map front end, a Flask routing API, and Dockerized hourly and daily SOLWEIG jobs.</span></li>
+        </ul>
+        <div class="links">
+          <a class="btn primary" data-link="coolroutes.tool">Open live tool ↗</a>
+          <a class="btn" data-link="coolroutes.paper">Paper</a>
+          <a class="btn" data-link="coolroutes.code">Code</a>
+          <a class="btn" data-link="coolroutes.data">Data</a>
+        </div>
+        <span class="status" data-status="coolroutes"></span>
+      </div>
+
+      </div>
+
+    <div class="stage reveal" data-tabs>
+      <div class="tabs" role="tablist">
+        <button role="tab" data-pane="cr-live" aria-selected="true">Live tool</button>
+      </div>
+      <div id="cr-live" role="tabpanel"><div class="live-host" data-live="coolroutes"></div></div>
+      <p class="note">This is the live Cool Routes application, embedded from its production deployment.</p>
+    </div>
+
+    <div class="pipe reveal">
+      <div class="step"><b>Weather + LiDAR</b><span>Hourly forecast and campus surface, vegetation and wall rasters</span></div>
+      <div class="step"><b>SOLWEIG</b><span>Shortwave and longwave radiation fluxes produce an MRT raster per hour</span></div>
+      <div class="step"><b>Walking graph</b><span>MRT sampled along each edge of the pedestrian network</span></div>
+      <div class="step"><b>Weighted search</b><span>Shortest-path search over a distance + heat cost</span></div>
+      <div class="step"><b>Map</b><span>Cool and shortest routes with stats, overlay and KML</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ VISIONMRT ============ -->
+<section id="visionmrt">
+  <div class="wrap">
+    <div class="proj-top">
+      <div class="reveal">
+        <div class="eyebrow">Project 02 · Computer vision + physics</div>
+        <h2>VisionMRT</h2>
+        <p class="muted" style="margin-top:14px;font-size:1.05rem">Upload a 360° photo, or pick a street-level panorama from a map, and VisionMRT reconstructs the scene, casts shadows through the day and solves a surface energy balance to give MRT, UTCI and PET.</p>
+        <ul class="feat">
+          <li><span><b>From imagery to physics.</b> Transformer-based segmentation and monocular depth estimation turn each cube face into surfaces with class and distance.</span></li>
+          <li><span><b>Sky view factor, done properly.</b> Computed as the cosine-weighted share of open sky from all six faces; unit tests check it against the analytic sin²θ cone.</span></li>
+          <li><span><b>Explore the result.</b> Cube-map, panorama, hemisphere and interactive 3D views, plus a segmentation editor with marker, magic-wand and tree-brush tools.</span></li>
+          <li><span><b>Validated.</b> Reported accuracy against 1,174 observations at 132 Phoenix-area sites: R² 0.94, RMSE 3.12 °C, MAE 2.61 °C (accepted, <i>Sustainable Cities and Society</i>).</span></li>
+          <li><span><b>Scales to many users.</b> Separate web, CPU and GPU workers with job queues, tested for concurrency, oversized uploads and worker failure.</span></li>
+        </ul>
+        <div class="links">
+          <a class="btn primary" data-link="visionmrt.tool">Open live tool ↗</a>
+          <a class="btn" data-link="visionmrt.paper">Paper</a>
+          <a class="btn" data-link="visionmrt.code">Code</a>
+          <a class="btn" data-link="visionmrt.data">Data</a>
+        </div>
+        <span class="status" data-status="visionmrt"></span>
+      </div>
+
+      </div>
+
+    <div class="stage reveal">
+      <div class="demo-host" data-demo="visionmrt"><p class="demo-status">Loading preview…</p></div>
+      <div class="live-block"><div class="live-host" data-live="visionmrt"></div></div>
+      <p class="note">The preview shows outputs precomputed by the released code on two sample sites. Use the live tool for new locations.</p>
+    </div>
+
+    <div class="pipe reveal">
+      <div class="step"><b>360° image</b><span>Cube-map ZIP, equirectangular panorama or a Mapillary pick</span></div>
+      <div class="step"><b>Segment</b><span>Sky, trees, buildings, pavement and other classes per face</span></div>
+      <div class="step"><b>Depth</b><span>Monocular depth to place surfaces in 3D</span></div>
+      <div class="step"><b>Shadows</b><span>Sun path ray-casting through the reconstructed scene</span></div>
+      <div class="step"><b>Energy balance</b><span>Surface temperatures and radiation exchange across the cube</span></div>
+      <div class="step"><b>MRT · UTCI · PET</b><span>All-day results with a full scenario download</span></div>
+    </div>
+
+    <div class="arch reveal">
+      <div class="panel"><h3>Web tier</h3><b>nginx + gunicorn</b><p>Uploads, status and light rendering; never runs heavy jobs.</p></div>
+      <div class="panel"><h3>CPU workers</h3><b>Shadows, MRT, ingest</b><p>One process per job, so a crash only affects that job.</p></div>
+      <div class="panel"><h3>GPU worker</h3><b>Segmentation + depth</b><p>Models stay resident on the GPU; faces are batched and cached by content.</p></div>
+      <div class="panel"><h3>Queue + storage</h3><b>Redis + shared volume</b><p>Position-in-queue feedback and back-pressure when overloaded.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ WEBMRT ============ -->
+<section id="webmrt" class="alt">
+  <div class="wrap">
+    <div class="proj-top">
+      <div class="reveal">
+        <div class="eyebrow">Project 03 · Machine learning</div>
+        <h2>WebMRT</h2>
+        <p class="muted" style="margin-top:14px;font-size:1.05rem">An online tool that predicts summertime mean radiant temperature from routinely available meteorological data, built for urban planners and climate decision-makers who need an answer without running a full radiation model.</p>
+        <ul class="feat">
+          <li><span><b>Trained on field measurements.</b> Models learn from MaRTy, the lab’s mobile six-direction instrument platform, across hot-arid summer conditions.</span></li>
+          <li><span><b>Fast and accessible.</b> Enter weather conditions in the browser and get an MRT estimate in seconds, with no modeling background required.</span></li>
+          <li><span><b>Benchmarked.</b> Several algorithms were compared; LightGBM performed best (R² = 0.92 on held-out data).</span></li>
+          <li><span><b>Peer-reviewed.</b> Published in <i>Sustainable Cities and Society</i> (2024).</span></li>
+        </ul>
+        <div class="links">
+          <a class="btn primary" data-link="webmrt.tool">Open live tool ↗</a>
+          <a class="btn" data-link="webmrt.paper">Paper</a>
+          <a class="btn" data-link="webmrt.code">Code</a>
+          <a class="btn" data-link="webmrt.data">Data</a>
+        </div>
+        <span class="status" data-status="webmrt"></span>
+      </div>
+
+      </div>
+
+    <div class="stage reveal">
+      <div class="demo-host" data-demo="webmrt"><p class="demo-status">Loading preview…</p></div>
+      <div class="live-block"><div class="live-host" data-live="webmrt"></div></div>
+      <p class="note">The preview runs the released example model on a documented sample dataset. The live tool uses the full model.</p>
+    </div>
+
+    <div class="pipe reveal">
+      <div class="step"><b>MaRTy field data</b><span>Six-direction radiation, air temperature, humidity, wind</span></div>
+      <div class="step"><b>Features</b><span>Meteorological and solar-geometry predictors</span></div>
+      <div class="step"><b>Model comparison</b><span>Multiple regressors evaluated on held-out data</span></div>
+      <div class="step"><b>Web tool</b><span>Browser interface for instant MRT prediction</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ PUBLICATIONS ============ -->
+<section id="publications">
+  <div class="wrap">
+    <div class="head reveal">
+      <div class="eyebrow">Publications</div>
+      <h2>Cite the work</h2>
+      <p>If you use these tools or ideas, please cite the paper for the tool you used.</p>
+    </div>
+    <div class="cite">
+      <article class="reveal">
+        <div class="t">Cool Routes: Real-Time Human Thermal Exposure Routing</div>
+        <div class="a">Buo, I. N. K., Khan, W. H., Crabtree, E., Emmott, F., Hariyani, D., Middel, A. · <i>Building and Environment</i> (in press)</div>
+        <div class="row"><a class="btn" href="https://doi.org/10.1016/j.buildenv.2026.114622" target="_blank" rel="noopener">DOI ↗</a><button class="small" data-copy="bib1">Copy BibTeX</button></div>
+        <pre id="bib1">@article{buo_coolroutes,
+  title   = {Cool Routes: Real-Time Human Thermal Exposure Routing},
+  author  = {Buo, Isaac Newton Kwasi and Khan, Waqar Hassan and Crabtree, Evan and Emmott, Fletcher and Hariyani, Devbrat and Middel, Ariane},
+  journal = {Building and Environment},
+  doi     = {10.1016/j.buildenv.2026.114622},
+  note    = {in press}
+}</pre>
+      </article>
+      <article class="reveal">
+        <div class="t">VisionMRT: Physics-Based Outdoor Thermal Exposure and Comfort Modeling using Photographs and 3D Reconstruction</div>
+        <div class="a">Middel, A., Shaeri, P., Woo, R. T., Krayenhoff, E. S. · <i>Sustainable Cities and Society</i> (accepted) · preprint on SSRN</div>
+        <div class="row"><a class="btn" href="https://papers.ssrn.com/sol3/papers.cfm?abstract_id=7191292" target="_blank" rel="noopener">SSRN ↗</a><button class="small" data-copy="bib4">Copy BibTeX</button></div>
+        <pre id="bib4">@article{middel_visionmrt,
+  title        = {VisionMRT: Physics-Based Outdoor Thermal Exposure and Comfort Modeling using Photographs and 3D Reconstruction},
+  author       = {Middel, Ariane and Shaeri, Pouya and Woo, Ryan T. and Krayenhoff, E. Scott},
+  journal      = {Sustainable Cities and Society},
+  note         = {Accepted; preprint on SSRN},
+  url          = {https://papers.ssrn.com/sol3/papers.cfm?abstract_id=7191292}
+}</pre>
+      </article>
+      <article class="reveal">
+        <div class="t">WebMRT: An online tool to predict summertime mean radiant temperature using machine learning</div>
+        <div class="a">AlKhaled, S. R., Middel, A., Shaeri, P., Buo, I., Schneider, F. A. · <i>Sustainable Cities and Society</i> 115:105861 (2024)</div>
+        <div class="row"><a class="btn" href="https://doi.org/10.1016/j.scs.2024.105861" target="_blank" rel="noopener">DOI ↗</a><button class="small" data-copy="bib2">Copy BibTeX</button></div>
+        <pre id="bib2">@article{alkhaled2024webmrt,
+  title   = {WebMRT: An online tool to predict summertime mean radiant temperature using machine learning},
+  author  = {AlKhaled, Saud R. and Middel, Ariane and Shaeri, Pouya and Buo, Isaac and Schneider, Florian A.},
+  journal = {Sustainable Cities and Society},
+  volume  = {115},
+  pages   = {105861},
+  year    = {2024},
+  doi     = {10.1016/j.scs.2024.105861}
+}</pre>
+      </article>
+      <article class="reveal">
+        <div class="t">A Multimodal Physics-Informed Neural Network Approach for Mean Radiant Temperature Modeling</div>
+        <div class="a">Shaeri, P., AlKhaled, S., Middel, A. · <i>Proceedings of the IEEE/CVF ICCV Workshops</i>, pp. 6606–6615 (2025) · related image-based MRT work</div>
+        <div class="row"><a class="btn" href="https://ieeexplore.ieee.org/document/11375311" target="_blank" rel="noopener">IEEE Xplore ↗</a><button class="small" data-copy="bib3">Copy BibTeX</button></div>
+        <pre id="bib3">@inproceedings{shaeri2025multimodal,
+  title     = {A Multimodal Physics-Informed Neural Network Approach for Mean Radiant Temperature Modeling},
+  author    = {Shaeri, Pouya and AlKhaled, Saud and Middel, Ariane},
+  booktitle = {Proceedings of the IEEE/CVF International Conference on Computer Vision (ICCV) Workshops},
+  pages     = {6606--6615},
+  year      = {2025}
+}</pre>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CODE & DATA ============ -->
+<section id="availability" class="alt">
+  <div class="wrap">
+    <div class="head reveal">
+      <div class="eyebrow">Code &amp; data</div>
+      <h2>What is released, and how</h2>
+      <p>Every example codebase is open source under the Apache License 2.0 and lives in the SHaDE Lab Showcase repository. The <b>Code</b> buttons open each project’s folder, with its files and README.</p>
+    </div>
+    <div class="scroll reveal">
+      <table class="avail">
+        <thead><tr><th>Project</th><th>Live tool</th><th>Example code</th><th>Example data</th></tr></thead>
+        <tbody>
+          <tr><td><b>Cool Routes</b></td><td>Public web app</td><td>Routing method, cost function and a minimal executable route example</td><td>Small representative street network</td></tr>
+          <tr><td><b>VisionMRT</b></td><td>Public web app</td><td>Published workflow, configuration and a runnable demo</td><td>Two contrasting sites (sun-exposed and shaded) with expected outputs</td></tr>
+          <tr><td><b>WebMRT</b></td><td>Public web app</td><td>Inference code with documented parameters and a test script</td><td>Sample meteorological inputs with expected outputs</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="note" style="margin-top:14px">Example releases demonstrate the published methods on small cases; they do not reproduce each paper’s complete validation. For additional code or data, <a data-contact href="#">contact the lab</a>.</p>
+  </div>
+</section>
+
+<!-- ============ TEAM ============ -->
+<section id="team">
+  <div class="wrap">
+    <div class="head reveal">
+      <div class="eyebrow">Credits</div>
+      <h2>Who built these tools</h2>
+      <p>Developed in the SHaDE Lab at Arizona State University, led by Ariane Middel. Each tool lists its own authors in the paper above.</p>
+    </div>
+    <div class="team reveal">
+      <div><b>Ariane Middel</b><span>Principal investigator, ASU</span></div>
+      <div><b>Pouya Shaeri</b><span>WebMRT, VisionMRT</span></div>
+      <div><b>Saud AlKhaled</b><span>WebMRT</span></div>
+      <div><b>Isaac Buo</b><span>WebMRT, Cool Routes</span></div>
+      <div><b>Florian Schneider</b><span>WebMRT</span></div>
+      <div><b>Waqar Hassan Khan</b><span>Cool Routes</span></div>
+      <div><b>Evan Crabtree</b><span>Cool Routes</span></div>
+      <div><b>Fletcher Emmott</b><span>Cool Routes</span></div>
+      <div><b>Devbrat Hariyani</b><span>Cool Routes</span></div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <div>© <span id="yr"></span> The SHaDE Lab, Arizona State University. Tools and papers remain the work of their listed authors.</div>
+    <div><a href="https://shadelab.asu.edu" target="_blank" rel="noopener">shadelab.asu.edu</a> · <a data-contact href="#">Contact</a></div>
+  </div>
+</footer>
+
+<script src="assets/site.js"></script>
+<script>document.getElementById("yr").textContent=new Date().getFullYear()</script>
+</body>
+</html>

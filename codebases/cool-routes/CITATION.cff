@@ -1,0 +1,39 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite the Cool Routes paper."
+title: "Cool Routes: example release of the heat-aware routing method"
+type: software
+authors:
+  - family-names: Buo
+    given-names: Isaac Newton Kwasi
+  - family-names: Khan
+    given-names: Waqar Hassan
+  - family-names: Crabtree
+    given-names: Evan
+  - family-names: Emmott
+    given-names: Fletcher
+  - family-names: Hariyani
+    given-names: Devbrat
+  - family-names: Middel
+    given-names: Ariane
+    affiliation: "Arizona State University"
+repository-code: "https://github.com/SHaDE-Lab/Showcase/tree/main/codebases/cool-routes"
+license: Apache-2.0
+preferred-citation:
+  type: article
+  title: "Cool Routes: Real-Time Human Thermal Exposure Routing"
+  journal: "Building and Environment"
+  doi: "10.1016/j.buildenv.2026.114622"
+  status: in-press
+  authors:
+    - family-names: Buo
+      given-names: Isaac Newton Kwasi
+    - family-names: Khan
+      given-names: Waqar Hassan
+    - family-names: Crabtree
+      given-names: Evan
+    - family-names: Emmott
+      given-names: Fletcher
+    - family-names: Hariyani
+      given-names: Devbrat
+    - family-names: Middel
+      given-names: Ariane

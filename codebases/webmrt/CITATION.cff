@@ -1,0 +1,35 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite the WebMRT paper."
+title: "WebMRT (example code release)"
+type: software
+authors:
+  - family-names: AlKhaled
+    given-names: Saud R.
+  - family-names: Middel
+    given-names: Ariane
+  - family-names: Shaeri
+    given-names: Pouya
+  - family-names: Buo
+    given-names: Isaac
+  - family-names: Schneider
+    given-names: Florian A.
+repository-code: "https://github.com/SHaDE-Lab/Showcase/tree/main/codebases/webmrt"
+preferred-citation:
+  type: article
+  title: "WebMRT: An online tool to predict summertime mean radiant temperature using machine learning"
+  authors:
+    - family-names: AlKhaled
+      given-names: Saud R.
+    - family-names: Middel
+      given-names: Ariane
+    - family-names: Shaeri
+      given-names: Pouya
+    - family-names: Buo
+      given-names: Isaac
+    - family-names: Schneider
+      given-names: Florian A.
+  journal: "Sustainable Cities and Society"
+  volume: 115
+  start: 105861
+  year: 2024
+  doi: "10.1016/j.scs.2024.105861"

@@ -1,0 +1,107 @@
+# Projects Showcase
+
+**A showcase of the SHaDE Lab's published human-thermal-exposure tools: papers, live tools, interactive demos and open-source example code.**
+
+[SHaDE Lab](https://shadelab.asu.edu) · Arizona State University
+
+> **Status:** private review copy. The repository is shared inside the SHaDE-Lab organization so the lab can look it over
+> before it is made public. Everything here is intended to be open source (see [License](#license)).
+
+Mean radiant temperature (MRT) is the radiation a person absorbs from sun, sky and surrounding surfaces. It often drives outdoor
+heat stress more than air temperature does. The three projects below estimate it from three kinds of data.
+
+## Projects
+
+| Project | What it does | Live tool | Paper | Example code |
+|---|---|---|---|---|
+| **Cool Routes** | Walking routes on the ASU campus that trade a little distance for much less radiant heat, from hourly SOLWEIG MRT forecasts | [coolroutes.sensableheatscapes.com](https://coolroutes.sensableheatscapes.com/) | Buo *et al.*, *Building and Environment* (in press), [doi:10.1016/j.buildenv.2026.114622](https://doi.org/10.1016/j.buildenv.2026.114622) | [`codebases/cool-routes`](codebases/cool-routes) |
+| **VisionMRT** | Physics-based MRT, UTCI and PET from a 360° image: segmentation, depth, shadow casting, surface energy balance | [shadelab.asu.edu/VisionMRT](https://shadelab.asu.edu/VisionMRT) | Middel *et al.*, *Sustainable Cities and Society* (accepted), [SSRN preprint](https://papers.ssrn.com/sol3/papers.cfm?abstract_id=7191292) | [`codebases/visionmrt`](codebases/visionmrt) |
+| **WebMRT** | Machine-learning prediction of summertime MRT from meteorology and the surroundings (LightGBM, trained on MaRTy field data) | [shadelab.asu.edu/WebMRT](https://shadelab.asu.edu/WebMRT) | AlKhaled *et al.*, *Sustainable Cities and Society* 115:105861 (2024), [doi:10.1016/j.scs.2024.105861](https://doi.org/10.1016/j.scs.2024.105861) | [`codebases/webmrt`](codebases/webmrt) |
+
+The website also lists the related image-based modeling paper, Shaeri, AlKhaled & Middel (2025), *A Multimodal Physics-Informed Neural
+Network Approach for Mean Radiant Temperature Modeling*, ICCV Workshops, [IEEE Xplore](https://ieeexplore.ieee.org/document/11375311).
+
+## What is in this repository
+
+```
+index.html            the showcase website (static, no build step)
+assets/               styles, scripts and the single place to edit links (PORTAL block in assets/site.js)
+demos/                interactive demos that run in the browser
+  coolroutes/           real ASU campus data and a JavaScript router with the same cost function as the Python code
+  visionmrt/            precomputed all-day outputs of the released code on two sample sites
+  webmrt/               the exported LightGBM sample model running in the browser
+codebases/            curated, tested example code for each project (each folder has its own README)
+  cool-routes/  visionmrt/  webmrt/
+patches/              proposed change to the Cool Routes frontend (URL parameters for start and destination)
+LICENSE  NOTICE       Apache-2.0 and third-party notices
+```
+
+### What "example code" means
+
+Each codebase is a curated release of the **published method** on **small sample data**, with tests. It is not the full web application
+and it does not reproduce each paper's complete validation. Each README lists what is included, what is deliberately left out, the
+provenance of the sample data and the known limitations.
+
+## Run the website locally
+
+The demos load their data with `fetch`, so serve the folder over HTTP (opening `index.html` from disk will not work):
+
+```bash
+python -m http.server 8080
+# open http://localhost:8080
+```
+
+The page opens in dark mode by default; the ◐ button switches themes and the browser remembers the choice.
+
+## Run the code and tests
+
+Each codebase is self-contained (Python 3.10+).
+
+```bash
+cd codebases/cool-routes && pip install -r requirements.txt && python -m pytest     # 21 tests, about 15 s
+cd codebases/webmrt      && pip install -r requirements.txt && python -m pytest     # 17 tests, about 5 s
+cd codebases/visionmrt   && pip install -r requirements.txt && python -m pytest     # 41 tests, about 4 min
+```
+
+The in-browser demos are checked against the Python results (needs Node 18+):
+
+```bash
+node demos/coolroutes/parity.test.mjs    # JS router vs. Python golden routes
+node demos/webmrt/parity.test.mjs        # JS tree evaluator and solar position vs. Python / pvlib
+```
+
+Each codebase has a `run_demo.py` that regenerates its demo assets under `demos/`.
+
+## Editing the site
+
+All project links and release status live in one block at the top of [`assets/site.js`](assets/site.js) (`window.PORTAL`):
+the live-tool URL, paper URL, code URL and whether the live tool can be embedded.
+
+* **Embedding the live tools.** Cool Routes is embedded in the page. `shadelab.asu.edu` currently sends `X-Frame-Options: DENY`, so
+  WebMRT and VisionMRT show a launch card. If the host allows this site (`Content-Security-Policy: frame-ancestors`), set their
+  `embed` flag to `true`.
+* **Start and destination in the embedded Cool Routes.** [`patches/`](patches) holds a small proposed change to the Cool Routes frontend
+  that reads `?start=COOR&end=CRTVC`. It is a proposal only and has not been applied to any lab repository.
+* **Hosting.** The site is plain static files (`.nojekyll` is included), so it can be served with GitHub Pages once the repository
+  is public, or on any static host.
+
+## Data and third-party notices
+
+Sample data are included for demonstration and documented in each codebase README. In short: the Cool Routes walking network derives
+from OpenStreetMap (© OpenStreetMap contributors, ODbL); the VisionMRT sample weather is from Open-Meteo (CC BY 4.0) and its sites ship
+as segmentation and depth maps only (no source photographs); the WebMRT sample is a seeded subset of the lab's MaRTy measurements.
+The SOLWEIG model code used to produce the Cool Routes MRT rasters derives from UMEP (GPL-3.0) and is **not** included. See
+[NOTICE](NOTICE).
+
+## Citing
+
+If you use a tool or its code, please cite the paper for that tool (BibTeX is on the website under *Publications*, and each codebase has
+a `CITATION.cff`).
+
+## License
+
+Code is released under the [Apache License 2.0](LICENSE). Third-party material keeps its own license (see [NOTICE](NOTICE)).
+
+## Contact
+
+[The SHaDE Lab](https://shadelab.asu.edu/contact/), Arizona State University.
