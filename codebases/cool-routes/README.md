@@ -1,7 +1,7 @@
-# Cool Routes: example release of the routing method
+# Cool Routes
 
 Walking routes that trade a little distance for a lot less radiant heat. This folder is a **curated,
-runnable, tested example release** of the method behind the
+runnable, tested implementation** of the method behind the
 [Cool Routes web tool](https://coolroutes.sensableheatscapes.com/) (SHaDE Lab, Arizona State University).
 It demonstrates the published method on a small, real sample of the ASU Tempe campus.
 **It is not the full system and does not reproduce the paper's complete evaluation.**

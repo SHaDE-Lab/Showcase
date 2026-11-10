@@ -3,7 +3,7 @@
 Original authors: S. R. AlKhaled, A. Middel, P. Shaeri, I. Buo, F. A. Schneider (SHaDE Lab, Arizona State University).
 Citation: https://doi.org/10.1016/j.scs.2024.105861
 
-Example release: this module trains on whatever CSV it is given. data/sample_RF_Data.csv is a small stratified
+This module trains on whatever CSV it is given. data/sample_RF_Data.csv is a small stratified
 sample; pass the full dataset path (or set WEBMRT_DATA) to reproduce the live model.
 """
 import os

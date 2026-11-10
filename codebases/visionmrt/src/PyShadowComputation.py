@@ -1,5 +1,5 @@
 """
-RELEASE NOTES (public example release)
+RELEASE NOTES
 --------------------------------------
 Methodology is unchanged from the SHaDE Lab VisionMRT code. Changes made for this release only:
   * removed the Windows-only mouse helper, the interactive FPS viewer and the desktop CLI entry point

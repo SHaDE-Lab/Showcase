@@ -1,9 +1,9 @@
-# VisionMRT: example code release
+# VisionMRT
 
 Physics-based **mean radiant temperature (MRT), UTCI and PET from a 360° view of a place**: the method behind the
 [VisionMRT web tool](https://shadelab.asu.edu/VisionMRT) of the SHaDE Lab at Arizona State University.
 
-> **Status: example release, open source (Apache-2.0).** This folder runs the published workflow end to end on **two example
+> **Open source (Apache-2.0).** This folder runs the published workflow end to end on **two example
 > sites**. It is *not* the paper's validation (that used 132 measured sites) and it is *not* the full web tool.
 > License: [Apache-2.0](LICENSE).
 

@@ -1,11 +1,11 @@
-# WebMRT: example code release
+# WebMRT
 
 LightGBM prediction of summertime mean radiant temperature (T<sub>mrt</sub>) in Phoenix, Arizona, from the
 surroundings (sky, tree and building fractions, pervious ground, shade), air temperature and the sun's position.
 This is a curated, runnable extract of the method behind the [WebMRT online tool](https://shadelab.asu.edu/WebMRT),
 developed at the SHaDE Lab, Arizona State University.
 
-> **This is an example release.** It demonstrates the published method on a small sample of the training data.
+> **Scope.** It demonstrates the published method on a small sample of the training data.
 > It does **not** reproduce the paper's full validation, and the model trained here is **not** the model behind the
 > live tool (which is trained on the full dataset).
 

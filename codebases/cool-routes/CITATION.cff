@@ -1,6 +1,6 @@
 cff-version: 1.2.0
 message: "If you use this software, please cite the Cool Routes paper."
-title: "Cool Routes: example release of the heat-aware routing method"
+title: "Cool Routes: heat-aware routing method"
 type: software
 authors:
   - family-names: Buo

@@ -1,6 +1,6 @@
 cff-version: 1.2.0
 message: "If you use this software, please cite it and the VisionMRT paper."
-title: "VisionMRT: physics-based mean radiant temperature from 360-degree imagery (example release)"
+title: "VisionMRT: physics-based mean radiant temperature from 360-degree imagery"
 type: software
 # TODO: confirm the author list for the software release.
 authors:
