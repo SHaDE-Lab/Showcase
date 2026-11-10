@@ -55,20 +55,21 @@ window.PORTAL = {
   });
   $$("[data-link$='.code']").forEach((a) => { if (!a.querySelector("svg")) a.insertAdjacentHTML("beforeend", ' <span aria-hidden="true">&lt;/&gt;</span>'); });
 
-  $$("[data-status]").forEach((el) => {
-    const p = window.PORTAL.projects[el.dataset.status];
-    el.textContent = p.codeStatus;
-    el.classList.toggle("ok", !!p.code);
-  });
   $$("[data-contact]").forEach((a) => (a.href = window.PORTAL.contact));
 
   /* ---------- theme ---------- */
   if (!root.dataset.theme) root.dataset.theme = "dark";
   $("#theme").addEventListener("click", () => {
-    root.dataset.theme = root.dataset.theme === "dark" ? "light" : "dark";
-    try { localStorage.setItem("theme", root.dataset.theme); } catch (e) {}
-    // demos that draw on <canvas> can listen for this and repaint
-    document.dispatchEvent(new CustomEvent("uh:theme"));
+    const next = root.dataset.theme === "dark" ? "light" : "dark";
+    const apply = () => {
+      root.dataset.theme = next;
+      try { localStorage.setItem("theme", next); } catch (e) {}
+      // demos that draw on <canvas> can listen for this and repaint
+      document.dispatchEvent(new CustomEvent("uh:theme"));
+    };
+    if (matchMedia("(prefers-reduced-motion: reduce)").matches) { apply(); return; }
+    if (document.startViewTransition) document.startViewTransition(apply);          // quick cross-fade of the whole page, canvases included
+    else { root.classList.add("theme-anim"); apply(); setTimeout(() => root.classList.remove("theme-anim"), 320); }
   });
 
   /* ---------- reveal + scrollspy ---------- */

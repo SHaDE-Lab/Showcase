@@ -208,3 +208,37 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:12px 32px;justify-content:space-bet
 :root[data-theme="dark"] #webmrt h2.lit{
   background-image:radial-gradient(circle 340px at var(--gx,30%) var(--gy,50%),#f4efff 0%,#c4b0ff 22%,#e9ecf4 52%,#8f97aa 100%);
   -webkit-background-clip:text;background-clip:text;color:transparent;-webkit-text-fill-color:transparent}
+
+/* ---------- header brand: hover animation ---------- */
+.brand{transition:letter-spacing .45s cubic-bezier(.2,.8,.2,1),filter .3s ease}
+.brand i{position:relative;flex:none;transition:transform .55s cubic-bezier(.3,1.5,.5,1),box-shadow .35s ease}
+.brand i::before{content:"";position:absolute;inset:0;border-radius:inherit;border:2px solid var(--accent-2);opacity:0;pointer-events:none}
+.brand i::after{content:"";position:absolute;left:50%;top:50%;width:7px;height:7px;margin:-3.5px 0 0 -3.5px;border-radius:50%;background:#fff;transform:scale(0);transition:transform .4s cubic-bezier(.3,1.6,.5,1)}
+.brand:hover,.brand:focus-visible{letter-spacing:.21em;filter:brightness(1.2)}
+.brand:hover i,.brand:focus-visible i{transform:rotate(90deg) scale(1.25);box-shadow:0 0 0 4px color-mix(in srgb,var(--accent) 22%,transparent),0 0 22px color-mix(in srgb,var(--accent) 60%,transparent)}
+.brand:hover i::after,.brand:focus-visible i::after{transform:scale(1);animation:brandDot 1.5s ease-in-out .4s infinite}
+.brand:hover i::before,.brand:focus-visible i::before{animation:brandRing 1.5s ease-out .2s infinite}
+@keyframes brandDot{50%{transform:scale(.5)}}
+@keyframes brandRing{0%{transform:scale(1);opacity:.9}100%{transform:scale(2.3);opacity:0}}
+#theme{transition:border-color .25s ease,background-color .25s ease,filter .25s ease}
+#theme:hover{border-color:var(--accent);filter:brightness(1.15)}
+
+/* ---------- buttons: smooth brightening hover with a light sweep ---------- */
+.btn{position:relative;overflow:hidden;transition:transform .22s ease,box-shadow .3s ease,filter .3s ease,background-color .3s ease,border-color .3s ease}
+.btn::after{content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(105deg,transparent 35%,rgba(255,255,255,.32) 50%,transparent 65%);transform:translateX(-130%);transition:transform .7s ease}
+.btn:hover{transform:translateY(-2px);filter:brightness(1.14)}
+.btn:hover::after{transform:translateX(130%)}
+.btn:not(.primary):hover{background:color-mix(in srgb,var(--accent) 12%,var(--surface));border-color:color-mix(in srgb,var(--accent) 55%,var(--line))}
+.btn.primary:hover{filter:brightness(1.12) saturate(1.1);box-shadow:0 10px 30px color-mix(in srgb,var(--accent) 45%,transparent)}
+.hero .btn:not(.primary):hover{background:rgba(255,255,255,.26);border-color:rgba(255,255,255,.6)}
+.btn:active{transform:translateY(0) scale(.98);filter:brightness(1.05)}
+
+/* ---------- theme switch: quick cross-fade ---------- */
+::view-transition-old(root),::view-transition-new(root){animation-duration:.26s;animation-timing-function:ease}
+.theme-anim,.theme-anim *,.theme-anim *::before,.theme-anim *::after{transition:background-color .25s ease,color .25s ease,border-color .25s ease,box-shadow .25s ease,fill .25s ease,stroke .25s ease !important}
+
+@media(prefers-reduced-motion:reduce){
+  .brand,.brand i,.btn,#theme{transition:none}
+  .btn::after{display:none}
+  .brand:hover i::after,.brand:hover i::before{animation:none}
+}
