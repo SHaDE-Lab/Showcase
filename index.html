@@ -4,10 +4,11 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Projects Showcase | SHaDE Lab</title>
-<meta name="description" content="Cool Routes, WebMRT and VisionMRT: published, open research tools for human thermal exposure and mean radiant temperature from the SHaDE Lab at Arizona State University.">
+<meta name="description" content="Cool Routes, VisionMRT and WebMRT, plus the MaRTy and MaRTiny instruments: published, open research tools for human thermal exposure and mean radiant temperature from the SHaDE Lab at Arizona State University.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Oswald:wght@200;300&display=swap">
 <script>try{document.documentElement.dataset.theme=localStorage.getItem("theme")||"dark"}catch(e){document.documentElement.dataset.theme="dark"}</script>
+<script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"}}</script>
 <link rel="stylesheet" href="assets/site.css">
 </head>
 <body>
@@ -16,11 +17,37 @@
   <div class="wrap">
     <a class="brand" href="#top"><i></i> Projects Showcase</a>
     <nav aria-label="Sections" id="navmenu">
-      <a href="#projects" class="keep">Projects</a>
-      <a href="#coolroutes">Cool Routes</a>
-      <a href="#visionmrt">VisionMRT</a>
-      <a href="#webmrt">WebMRT</a>
-      <a href="#publications" class="keep">Papers</a>
+      <div class="dd">
+        <a href="#projects" class="dd-t">Projects</a>
+        <div class="dd-m">
+          <a href="#coolroutes">Cool Routes</a>
+          <a href="#visionmrt">VisionMRT</a>
+          <a href="#webmrt">WebMRT</a>
+        </div>
+      </div>
+      <div class="dd">
+        <a href="#tools" class="dd-t">Tools</a>
+        <div class="dd-m">
+          <a href="#marty">MaRTy</a>
+          <a href="#martiny">MaRTiny</a>
+        </div>
+      </div>
+      <a href="#publications">Papers</a>
+      <div class="dd dd-lab dd-right">
+        <a href="https://shadelab.asu.edu/" target="_blank" rel="noopener" class="dd-t lab-logo" aria-label="The SHaDE Lab home page">
+          <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11.2 12 3.8l9 7.4"/><path d="M5.2 9.8v10h4.6v-6.2h4.4v6.2h4.6v-10"/></svg>
+          <span>SHaDE Lab</span>
+        </a>
+        <div class="dd-m">
+        <a href="https://shadelab.asu.edu/" target="_blank" rel="noopener">Home</a>
+        <a href="https://shadelab.asu.edu/team/" target="_blank" rel="noopener">Team</a>
+        <a href="https://shadelab.asu.edu/projects/" target="_blank" rel="noopener">Full Projects</a>
+        <a href="https://shadelab.asu.edu/publications/" target="_blank" rel="noopener">Publications</a>
+        <a href="https://shadelab.asu.edu/shade-news/" target="_blank" rel="noopener">SHaDE News</a>
+        <a href="https://shadelab.asu.edu/tools-data/" target="_blank" rel="noopener">Tools &amp; Data</a>
+        <a href="https://shadelab.asu.edu/contact/" target="_blank" rel="noopener">Contact</a>
+        </div>
+      </div>
     </nav>
     <button id="theme" aria-label="Toggle light/dark theme" title="Toggle theme">◐</button>
     <button class="menu-btn" id="menu" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="navmenu"><span></span><span></span><span></span></button>
@@ -130,7 +157,7 @@
           <li><span><b>From imagery to physics.</b> Transformer-based segmentation and monocular depth estimation turn each cube face into surfaces with class and distance.</span></li>
           <li><span><b>Sky view factor, done properly.</b> Computed as the cosine-weighted share of open sky from all six faces; unit tests check it against the analytic sin²θ cone.</span></li>
           <li><span><b>Explore the result.</b> Cube-map, panorama, hemisphere and interactive 3D views, plus a segmentation editor with marker, magic-wand and tree-brush tools.</span></li>
-          <li><span><b>Validated.</b> Reported accuracy against 1,174 observations at 132 Phoenix-area sites: R² 0.94, RMSE 3.12 °C, MAE 2.61 °C (accepted, <i>Sustainable Cities and Society</i>).</span></li>
+          <li><span><b>Validated.</b> Reported accuracy against 1,174 observations at 132 Phoenix-area sites: R² 0.94, RMSE 3.12 °C, MAE 2.61 °C (<i>Sustainable Cities and Society</i>, 2026).</span></li>
           <li><span><b>Scales to many users.</b> Separate web, CPU and GPU workers with job queues, tested for concurrency, oversized uploads and worker failure.</span></li>
         </ul>
         <div class="links">
@@ -206,8 +233,86 @@
   </div>
 </section>
 
+<!-- ============ TOOLS ============ -->
+<section id="tools">
+  <div class="wrap">
+    <div class="head reveal">
+      <div class="eyebrow">Tools</div>
+      <h2>The instruments behind the data</h2>
+      <p>Models need measurements. MaRTy and MaRTiny are the SHaDE Lab’s own instruments for measuring human heat exposure: a research-grade mobile station, and a low-cost sensor that also sees how people use shade.</p>
+    </div>
+    <div class="cards two">
+      <a class="card reveal" href="#marty">
+        <div class="ico g2">MY</div><h3>MaRTy</h3>
+        <p class="muted">A mobile weather station on a cart. Twelve radiation sensors look up, down and in the four compass directions to measure mean radiant temperature as a pedestrian feels it.</p>
+        <div class="tags"><span class="tag">Six-directional radiation</span><span class="tag">Mobile</span><span class="tag">Field data</span></div>
+      </a>
+      <a class="card reveal" href="#martiny">
+        <div class="ico g1">MI</div><h3>MaRTiny</h3>
+        <p class="muted">MaRTy’s tiny sibling: a low-cost IoT device with a globe thermometer and embedded computer vision that counts people standing in sun and in shade.</p>
+        <div class="tags"><span class="tag">Low cost</span><span class="tag">Computer vision</span><span class="tag">IoT</span></div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ============ MARTY ============ -->
+<section id="marty" class="alt">
+  <div class="wrap">
+    <div class="proj-top">
+      <div class="reveal">
+        <div class="eyebrow">Tool 01 · Mobile station</div>
+        <h2>MaRTy</h2>
+        <p class="muted" style="margin-top:14px;font-size:1.05rem">A mobile human-biometeorological station that rolls through a place and measures what a pedestrian actually feels. Every two seconds it records air temperature, humidity, wind, position and radiation from six directions, and turns them into mean radiant temperature.</p>
+        <ul class="feat">
+          <li><span><b>Six-directional radiation.</b> Three four-component net radiometers, twelve sensors in all, measure shortwave and longwave radiation from above, below and the four compass directions at about 1.1 to 1.3 m, around torso height.</span></li>
+          <li><span><b>Weather at pedestrian height.</b> A Rotronic HygroClip2 probe for air temperature and humidity, a Gill two-dimensional WindSonic anemometer and a Garmin GPS.</span></li>
+          <li><span><b>From fluxes to MRT.</b> The six radiant fluxes are combined with angular factors for a standing person (0.06 for up and down, 0.22 for each horizontal direction) to give mean radiant temperature.</span></li>
+          <li><span><b>Proven in the field.</b> First used for hourly transects at 22 campus sites on 19 June 2016, the record 47.8 °C day in Tempe. Its measurements are the training data behind WebMRT.</span></li>
+        </ul>
+        <div class="links">
+          <a class="btn primary" data-link="marty.paper">Paper ↗</a>
+          <a class="btn" data-link="marty.code">Code</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="stage reveal">
+      <div class="demo-host" data-demo="marty"><p class="demo-status">Loading the 3D model…</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ MARTINY ============ -->
+<section id="martiny">
+  <div class="wrap">
+    <div class="proj-top">
+      <div class="reveal">
+        <div class="eyebrow">Tool 02 · Low-cost sensor</div>
+        <h2>MaRTiny</h2>
+        <p class="muted" style="margin-top:14px;font-size:1.05rem">MaRTy’s tiny sibling: a low-cost IoT biometeorological device that estimates mean radiant temperature from a globe thermometer, and uses embedded computer vision to count how many people stand in sun and in shade.</p>
+        <ul class="feat">
+          <li><span><b>Globe and weather sensing.</b> A grey globe on a DS18B20 probe, an air probe under a white radiation cup, a DHT22 humidity sensor, a UV sensor and a cup anemometer, read by an Arduino Uno and sent on by a NodeMCU with Wi-Fi.</span></li>
+          <li><span><b>Computer vision at the edge.</b> An NVIDIA Jetson Nano and a camera run YOLOv3 pedestrian detection and a shadow-detection network every 15 minutes. Only counts are stored; the images are discarded after analysis.</span></li>
+          <li><span><b>Small and affordable.</b> About $200 in parts on a single 20 W supply. A machine-learning correction brings globe-based MRT to an RMSE of about 4 °C against the six-directional reference, as a proof of concept.</span></li>
+          <li><span><b>In the parks.</b> Deployed in City of Tempe parks from 2021 to 2023 to study how the use of public space changes with heat.</span></li>
+        </ul>
+        <div class="links">
+          <a class="btn primary" data-link="martiny.paper">Paper ↗</a>
+          <a class="btn" data-link="martiny.code">Code</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="stage reveal">
+      <div class="demo-host" data-demo="martiny"><p class="demo-status">Loading the 3D model…</p></div>
+      <p class="note">Illustrative 3D model built from photographs of MaRTiny and the parts list in the paper. Proportions are approximate, and the mounting is simplified.</p>
+    </div>
+  </div>
+</section>
+
 <!-- ============ PUBLICATIONS ============ -->
-<section id="publications">
+<section id="publications" class="alt">
   <div class="wrap">
     <div class="head reveal">
       <div class="eyebrow">Publications</div>
@@ -228,15 +333,17 @@
 }</pre>
       </article>
       <article class="reveal">
-        <div class="t">VisionMRT: Physics-Based Outdoor Thermal Exposure and Comfort Modeling using Photographs and 3D Reconstruction</div>
-        <div class="a">Middel, A., Shaeri, P., Woo, R. T., Krayenhoff, E. S. · <i>Sustainable Cities and Society</i> (accepted) · preprint on SSRN</div>
-        <div class="row"><a class="btn" href="https://papers.ssrn.com/sol3/papers.cfm?abstract_id=7191292" target="_blank" rel="noopener">SSRN ↗</a><button class="small" data-copy="bib4">Copy BibTeX</button></div>
+        <div class="t">VisionMRT: Physics-based outdoor thermal exposure and comfort modeling using photographs and 3D reconstruction</div>
+        <div class="a">Middel, A., Shaeri, P., Woo, R. T., Krayenhoff, E. S. · <i>Sustainable Cities and Society</i> 151:108016 (2026)</div>
+        <div class="row"><a class="btn" href="https://doi.org/10.1016/j.scs.2026.108016" target="_blank" rel="noopener">DOI ↗</a><button class="small" data-copy="bib4">Copy BibTeX</button></div>
         <pre id="bib4">@article{middel_visionmrt,
-  title        = {VisionMRT: Physics-Based Outdoor Thermal Exposure and Comfort Modeling using Photographs and 3D Reconstruction},
+  title        = {VisionMRT: Physics-based outdoor thermal exposure and comfort modeling using photographs and 3D reconstruction},
   author       = {Middel, Ariane and Shaeri, Pouya and Woo, Ryan T. and Krayenhoff, E. Scott},
   journal      = {Sustainable Cities and Society},
-  note         = {Accepted; preprint on SSRN},
-  url          = {https://papers.ssrn.com/sol3/papers.cfm?abstract_id=7191292}
+  volume       = {151},
+  pages        = {108016},
+  year         = {2026},
+  doi          = {10.1016/j.scs.2026.108016}
 }</pre>
       </article>
       <article class="reveal">
@@ -251,6 +358,34 @@
   pages   = {105861},
   year    = {2024},
   doi     = {10.1016/j.scs.2024.105861}
+}</pre>
+      </article>
+      <article class="reveal">
+        <div class="t">Micrometeorological determinants of pedestrian thermal exposure during record-breaking heat in Tempe, Arizona: Introducing the MaRTy observational platform</div>
+        <div class="a">Middel, A., Krayenhoff, E. S. · <i>Science of The Total Environment</i> 687:137–151 (2019) · MaRTy</div>
+        <div class="row"><a class="btn" href="https://doi.org/10.1016/j.scitotenv.2019.06.085" target="_blank" rel="noopener">DOI ↗</a><button class="small" data-copy="bib5">Copy BibTeX</button></div>
+        <pre id="bib5">@article{middel2019marty,
+  title   = {Micrometeorological determinants of pedestrian thermal exposure during record-breaking heat in Tempe, Arizona: Introducing the MaRTy observational platform},
+  author  = {Middel, Ariane and Krayenhoff, E. Scott},
+  journal = {Science of The Total Environment},
+  volume  = {687},
+  pages   = {137--151},
+  year    = {2019},
+  doi     = {10.1016/j.scitotenv.2019.06.085}
+}</pre>
+      </article>
+      <article class="reveal">
+        <div class="t">MaRTiny: A Low-Cost Biometeorological Sensing Device With Embedded Computer Vision for Urban Climate Research</div>
+        <div class="a">Kulkarni, K. K., Schneider, F. A., Gowda, T., Jayasuriya, S., Middel, A. · <i>Frontiers in Environmental Science</i> 10:866240 (2022) · MaRTiny</div>
+        <div class="row"><a class="btn" href="https://doi.org/10.3389/fenvs.2022.866240" target="_blank" rel="noopener">DOI ↗</a><button class="small" data-copy="bib6">Copy BibTeX</button></div>
+        <pre id="bib6">@article{kulkarni2022martiny,
+  title   = {MaRTiny: A Low-Cost Biometeorological Sensing Device With Embedded Computer Vision for Urban Climate Research},
+  author  = {Kulkarni, Karthik K. and Schneider, Florian A. and Gowda, Tejaswi and Jayasuriya, Suren and Middel, Ariane},
+  journal = {Frontiers in Environmental Science},
+  volume  = {10},
+  pages   = {866240},
+  year    = {2022},
+  doi     = {10.3389/fenvs.2022.866240}
 }</pre>
       </article>
       <article class="reveal">

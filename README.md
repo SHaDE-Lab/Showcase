@@ -15,11 +15,23 @@ heat stress more than air temperature does. The three projects below estimate it
 | Project | What it does | Live tool | Paper | Example code |
 |---|---|---|---|---|
 | **Cool Routes** | Walking routes on the ASU campus that trade a little distance for much less radiant heat, from hourly SOLWEIG MRT forecasts | [coolroutes.sensableheatscapes.com](https://coolroutes.sensableheatscapes.com/) | Buo *et al.*, *Building and Environment* (in press), [doi:10.1016/j.buildenv.2026.114622](https://doi.org/10.1016/j.buildenv.2026.114622) | [`codebases/cool-routes`](codebases/cool-routes) |
-| **VisionMRT** | Physics-based MRT, UTCI and PET from a 360° image: segmentation, depth, shadow casting, surface energy balance | [shadelab.asu.edu/VisionMRT](https://shadelab.asu.edu/VisionMRT) | Middel *et al.*, *Sustainable Cities and Society* (accepted), [SSRN preprint](https://papers.ssrn.com/sol3/papers.cfm?abstract_id=7191292) | [`codebases/visionmrt`](codebases/visionmrt) |
+| **VisionMRT** | Physics-based MRT, UTCI and PET from a 360° image: segmentation, depth, shadow casting, surface energy balance | [shadelab.asu.edu/VisionMRT](https://shadelab.asu.edu/VisionMRT) | Middel *et al.*, *Sustainable Cities and Society* 151:108016 (2026), [doi:10.1016/j.scs.2026.108016](https://doi.org/10.1016/j.scs.2026.108016) | [`codebases/visionmrt`](codebases/visionmrt) |
 | **WebMRT** | Machine-learning prediction of summertime MRT from meteorology and the surroundings (LightGBM, trained on MaRTy field data) | [shadelab.asu.edu/WebMRT](https://shadelab.asu.edu/WebMRT) | AlKhaled *et al.*, *Sustainable Cities and Society* 115:105861 (2024), [doi:10.1016/j.scs.2024.105861](https://doi.org/10.1016/j.scs.2024.105861) | [`codebases/webmrt`](codebases/webmrt) |
 
 The website also lists the related image-based modeling paper, Shaeri, AlKhaled & Middel (2025), *A Multimodal Physics-Informed Neural
 Network Approach for Mean Radiant Temperature Modeling*, ICCV Workshops, [IEEE Xplore](https://ieeexplore.ieee.org/document/11375311).
+
+## Tools
+
+The two instruments behind the lab's field data, each with an interactive 3D model you can rotate and take apart:
+
+| Tool | What it is | Paper | Code |
+|---|---|---|---|
+| **MaRTy** | Mobile human-biometeorological station: six-directional radiation (twelve sensors), air temperature, humidity, wind and GPS on a cart | Middel & Krayenhoff, *Science of The Total Environment* 687:137–151 (2019), [doi:10.1016/j.scitotenv.2019.06.085](https://doi.org/10.1016/j.scitotenv.2019.06.085) | [`codebases/MaRTy`](codebases/MaRTy) (CERN-OHL-P-2.0) |
+| **MaRTiny** | Low-cost IoT device with a globe thermometer and embedded computer vision that counts people in sun and in shade | Kulkarni *et al.*, *Frontiers in Environmental Science* 10:866240 (2022), [doi:10.3389/fenvs.2022.866240](https://doi.org/10.3389/fenvs.2022.866240) | [SHaDE-Lab/MaRTiny](https://github.com/SHaDE-Lab/MaRTiny) |
+
+The 3D models are drawn in code (three.js) from photographs of the devices and the sensor tables in the papers. They are illustrative:
+proportions are approximate and some mounting details are simplified.
 
 ## What is in this repository
 
@@ -30,8 +42,9 @@ demos/                interactive demos that run in the browser
   coolroutes/           real ASU campus data and a JavaScript router with the same cost function as the Python code
   visionmrt/            precomputed all-day outputs of the released code on two sample sites
   webmrt/               the exported LightGBM sample model running in the browser
+  _3d/ marty/ martiny/  the shared three.js viewer and the MaRTy and MaRTiny 3D models
 codebases/            curated, tested example code for each project (each folder has its own README)
-  cool-routes/  visionmrt/  webmrt/
+  cool-routes/  visionmrt/  webmrt/  MaRTy/   (MaRTy: logger program and field guide)
 patches/              proposed change to the Cool Routes frontend (URL parameters for start and destination)
 LICENSE  NOTICE       Apache-2.0 and third-party notices
 ```
@@ -52,6 +65,9 @@ python -m http.server 8080
 ```
 
 The page opens in dark mode by default; the ◐ button switches themes and the browser remembers the choice.
+
+The 3D viewers load three.js from a pinned jsDelivr URL (see the import map in `index.html`), so they need an internet connection and a
+browser with WebGL.
 
 ## Run the code and tests
 
@@ -100,7 +116,9 @@ a `CITATION.cff`).
 
 ## License
 
-Code is released under the [Apache License 2.0](LICENSE). Third-party material keeps its own license (see [NOTICE](NOTICE)).
+Code is released under the [Apache License 2.0](LICENSE), except [`codebases/MaRTy`](codebases/MaRTy), which is released under the
+[CERN Open Hardware Licence v2, Permissive (CERN-OHL-P-2.0)](codebases/MaRTy/LICENSE) because it describes a hardware instrument.
+Third-party material keeps its own license (see [NOTICE](NOTICE)).
 
 ## Contact
 

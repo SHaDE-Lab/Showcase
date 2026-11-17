@@ -11,6 +11,7 @@ Third-party material (not covered by the Apache-2.0 grant for SHaDE Lab code):
   * UMEP / SOLWEIG (GPL-3.0) is NOT included in this repository. It is referenced
     in the Cool Routes README only.
   * Python and JavaScript dependencies keep their own licenses.
+  * The 3D viewers load three.js (MIT License) from the jsDelivr CDN at run time; it is not bundled.
   * The website loads the Inter typeface from Google Fonts at run time; it is not bundled.
 
 Sample datasets are provided for demonstration. Their provenance is documented in

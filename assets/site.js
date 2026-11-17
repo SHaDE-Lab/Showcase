@@ -7,6 +7,8 @@
 window.PORTAL = {
   contact: "https://shadelab.asu.edu/contact/",
   projects: {
+    marty: { paper: "https://doi.org/10.1016/j.scitotenv.2019.06.085", code: "https://github.com/SHaDE-Lab/Showcase/tree/main/codebases/MaRTy" },                                  // Middel & Krayenhoff 2019
+    martiny: { paper: "https://doi.org/10.3389/fenvs.2022.866240", code: "https://github.com/SHaDE-Lab/MaRTiny" },  // Kulkarni et al. 2022
     coolroutes: {
       embed: true,      // true = show the live tool in an iframe; false = launch card
       // pre-selects Coor Hall -> Creativity Commons (building codes). Needs patches/cool-routes-frontend-url-params.patch deployed; ignored otherwise.
@@ -31,7 +33,7 @@ window.PORTAL = {
     visionmrt: {
       embed: false,      // true = show the live tool in an iframe; false = launch card
       tool: "https://shadelab.asu.edu/VisionMRT",
-      paper: "https://papers.ssrn.com/sol3/papers.cfm?abstract_id=7191292",   // accepted in Sustainable Cities and Society; SSRN preprint link until the journal DOI exists
+      paper: "https://doi.org/10.1016/j.scs.2026.108016",   // Sustainable Cities and Society 151:108016 (2026)
       code: "https://github.com/SHaDE-Lab/Showcase/tree/main/codebases/visionmrt",
       data: "",
       codeStatus: "Open-source example code (Apache-2.0)",
@@ -95,7 +97,9 @@ window.PORTAL = {
 
   const links = $$(".nav a[href^='#']");
   const spy = new IntersectionObserver((es) => es.forEach((e) => {
-    if (e.isIntersecting) links.forEach((l) => l.classList.toggle("active", l.getAttribute("href") === "#" + e.target.id));
+    if (!e.isIntersecting) return;
+    links.forEach((l) => l.classList.toggle("active", l.getAttribute("href") === "#" + e.target.id));
+    $$(".nav .dd").forEach((dd) => dd.classList.toggle("has-active", !!dd.querySelector(".dd-m a.active")));   // parent lights up for its children
   }), { rootMargin: "-45% 0px -50% 0px" });
   $$("main section[id]").forEach((s) => spy.observe(s));
 

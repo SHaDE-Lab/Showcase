@@ -98,7 +98,7 @@ they guard against regressions; **they are not a validation against measured MRT
 
 ## Citation
 
-Cite the VisionMRT paper (Middel, Shaeri, Woo & Krayenhoff, accepted in *Sustainable Cities and Society*; preprint: https://papers.ssrn.com/sol3/papers.cfm?abstract_id=7191292; **TODO: add the DOI once published**) and, for the image-based MRT approach:
+Cite the VisionMRT paper (Middel, Shaeri, Woo & Krayenhoff, *Sustainable Cities and Society* 151, 108016, 2026; <https://doi.org/10.1016/j.scs.2026.108016>) and, for the image-based MRT approach:
 
 > Shaeri, P., AlKhaled, S., & Middel, A. (2025). A Multimodal Physics-Informed Neural Network Approach for Mean Radiant
 > Temperature Modeling. *Proceedings of the IEEE/CVF ICCV Workshops*, 6606–6615. https://ieeexplore.ieee.org/document/11375311

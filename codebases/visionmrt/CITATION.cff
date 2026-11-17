@@ -12,10 +12,9 @@ authors:
     given-names: Saud
 repository-code: "https://github.com/SHaDE-Lab/Showcase/tree/main/codebases/visionmrt"
 license: Apache-2.0
-# TODO: add the journal DOI (and volume/year) here and in README.md once the accepted paper is published.
 preferred-citation:
   type: article
-  title: "VisionMRT: Physics-Based Outdoor Thermal Exposure and Comfort Modeling using Photographs and 3D Reconstruction"
+  title: "VisionMRT: Physics-based outdoor thermal exposure and comfort modeling using photographs and 3D reconstruction"
   authors:
     - family-names: Middel
       given-names: Ariane
@@ -26,8 +25,10 @@ preferred-citation:
     - family-names: Krayenhoff
       given-names: E. Scott
   journal: "Sustainable Cities and Society"
-  status: in-press
-  url: "https://papers.ssrn.com/sol3/papers.cfm?abstract_id=7191292"
+  volume: 151
+  year: 2026
+  month: 11
+  doi: "10.1016/j.scs.2026.108016"
 references:
   - type: conference-paper
     title: "A Multimodal Physics-Informed Neural Network Approach for Mean Radiant Temperature Modeling"

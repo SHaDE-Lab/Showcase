@@ -1,0 +1,439 @@
+'CR3000
+'Created by Short Cut (3.2) and modified by Ariane Middel, 2019-08-18
+'
+'Copyright 2026 The SHaDE Lab, Arizona State University
+'This source describes Open Hardware and is licensed under the CERN-OHL-P v2.
+'You may redistribute and modify this source and make products using it under the terms of the
+'CERN-OHL-P v2 (https://ohwr.org/cern_ohl_p_v2.txt).
+'This source is distributed WITHOUT ANY EXPRESS OR IMPLIED WARRANTY, INCLUDING OF MERCHANTABILITY,
+'SATISFACTORY QUALITY AND FITNESS FOR A PARTICULAR PURPOSE.
+'Please see the CERN-OHL-P v2 for applicable conditions.
+'Source location: https://github.com/SHaDE-Lab/Showcase/tree/main/codebases/MaRTy
+'
+
+'Declare Variables and Units
+Dim WSStr As String * 21
+Dim ByteRet
+Dim ChkSumF As Boolean
+Dim WSData(4)
+Dim NMEASent(2) As String * 90
+Dim LCount
+Public BattV
+Public PTemp_C
+Public AirTC
+Public RH
+Public WindDir
+Public WS_ms
+Public WSDiag
+Public N(9)
+Public GPSData(15)
+Public speed_m
+'Public lat
+'Public lon
+
+Public SR_left
+Public SR_right
+Public IR_left
+Public IR_right
+Public NR01TC
+Public NR01TK
+Public NetRs_left_right
+Public NetRl_left_right
+Public Albedo_left_right
+Public Left_total
+Public Right_total
+Public Net_left_right
+Public IR_left_corr
+Public IR_right_corr
+Public T_left_C
+Public T_right_C
+
+Public SR_front
+Public SR_back
+Public IR_front
+Public IR_back
+Public NR02TC
+Public NR02TK
+Public NetRs_front_back
+Public NetRl_front_back
+Public Albedo_front_back
+Public Front_total
+Public Back_total
+Public Net_front_back
+Public IR_front_corr
+Public IR_back_corr
+Public T_front_C
+Public T_back_C
+
+Public SR_up
+Public SR_down
+Public IR_up
+Public IR_down
+Public NR03TC
+Public NR03TK
+Public NetRs_up_down
+Public NetRl_up_down
+Public Albedo_up_down
+Public Up_total
+Public Down_total
+Public Net_total
+Public IR_up_corr
+Public IR_down_corr
+Public T_up_C
+Public T_down_C
+
+Public MRT
+'Public Temp_C
+'Public TempThermocouple_C
+'Public TempThermocoupleShielded_C
+'Public TempThermocouple_6
+
+Alias N(1)=SmplsF
+Alias N(2)=Diag1F
+Alias N(3)=Diag2F
+Alias N(4)=Diag4F
+Alias N(5)=Diag8F
+Alias N(6)=Diag9F
+Alias N(7)=Diag10F
+Alias N(8)=NNDF
+Alias N(9)=CSEF
+
+Alias GPSData(1)=Latitude_A
+Alias GPSData(2)=Latitude_B
+Alias GPSData(3)=Longitude_A
+Alias GPSData(4)=Longitude_B
+Alias GPSData(5)=Speed
+Alias GPSData(6)=Course
+Alias GPSData(7)=MagVar
+Alias GPSData(8)=FixQual
+Alias GPSData(9)=NumSats
+Alias GPSData(10)=Altitude
+Alias GPSData(11)=PPS
+Alias GPSData(12)=SecSinceGPRMC
+Alias GPSData(13)=GPSReady
+Alias GPSData(14)=MaxClockChange
+Alias GPSData(15)=NumClockChange
+
+Units BattV=Volts
+Units PTemp_C=Deg C
+Units AirTC=Deg C
+Units RH=%
+Units WindDir=degrees
+Units WS_ms=meters/second
+Units WSDiag=unitless
+Units speed_m = m/s
+'Units lat = degrees
+'Units lon = degrees
+
+Units SR_left=W/m^2
+Units SR_right=W/m^2
+Units IR_left=W/m^2
+Units IR_right=W/m^2
+Units NR01TC=Deg C
+Units NR01TK=K
+Units NetRs_left_right=W/m^2
+Units NetRl_left_right=W/m^2
+Units Albedo_left_right=W/m^2
+Units Left_total=W/m^2
+Units Right_total=W/m^2
+Units Net_left_right=W/m^2
+Units IR_left_corr=W/m^2
+Units IR_right_corr=W/m^2
+Units T_left_C=Deg C
+Units T_right_C=Deg C
+
+Units SR_front=W/m^2
+Units SR_back=W/m^2
+Units IR_front=W/m^2
+Units IR_back=W/m^2
+Units NR02TC=Deg C
+Units NR02TK=K
+Units NetRs_front_back=W/m^2
+Units NetRl_front_back=W/m^2
+Units Albedo_front_back=W/m^2
+Units Front_total=W/m^2
+Units Back_total=W/m^2
+Units Net_front_back=W/m^2
+Units IR_front_corr=W/m^2
+Units IR_back_corr=W/m^2
+Units T_front_C=Deg C
+Units T_back_C=Deg C
+
+Units SR_up=W/m^2
+Units SR_down=W/m^2
+Units IR_up=W/m^2
+Units IR_down=W/m^2
+Units NR03TC=Deg C
+Units NR03TK=K
+Units NetRs_up_down=W/m^2
+Units NetRl_up_down=W/m^2
+Units Albedo_up_down=W/m^2
+Units Up_total=W/m^2
+Units Down_total=W/m^2
+Units Net_total=W/m^2
+Units IR_up_corr=W/m^2
+Units IR_down_corr=W/m^2
+Units T_up_C=Deg C
+Units T_down_C=Deg C
+
+Units MRT=Deg C
+'Units Temp_C=Deg C
+
+Units Latitude_A=degrees
+Units Latitude_B=minutes
+Units Longitude_A=degrees
+Units Longitude_B=minutes
+Units Speed=ms-1 'converted
+Units Course=degrees
+Units MagVar=degrees
+Units FixQual=code
+Units NumSats=count
+Units Altitude=meters
+Units PPS=microseconds
+Units SecSinceGPRMC=seconds
+Units GPSReady=count
+Units MaxClockChange=milliseconds
+Units NumClockChange=count
+'Units TempThermocouple_C=Deg C
+'Units TempThermocoupleShielded_C=Deg C
+'Units TempThermocouple_6=Deg_C
+'------------------------------------------------------------------
+'Define Data Tables
+DataTable(Output,True,-1)
+  CardOut (0,-1)  'store stuff on CF card, owerwrite when full, use all memory on card
+	DataInterval(0,2,Sec,10) 'DataInterval(0,2,Sec,10)
+	Average(1,BattV,FP2,False)
+	Average(1,PTemp_C,FP2,False)
+	Average(1,AirTC,FP2,False)
+	Sample(1,RH,FP2)
+	Sample(1,WindDir,FP2)
+	Average(1,WS_ms,FP2,False)
+	Sample(1,Latitude_A,String) 'Sample(1,Latitude_A,FP2) changed to String for all GPS!
+	Sample(1,Latitude_B,String)
+	Sample(1,Longitude_A,String)
+	Sample(1,Longitude_B,String)
+	'Sample(1,lat,String)
+	'Sample(1,lon,String)
+	Sample(1,Speed_m,String)
+
+	Sample(1,Course,String)
+	Sample(1,Altitude,String)
+	Sample(1,GPSReady,String)
+
+	
+	Average(1,SR_left,FP2,False)
+	Average(1,SR_right,FP2,False)
+	Average(1,IR_left,FP2,False)
+	Average(1,IR_right,FP2,False)
+	Average(1,NR01TC,FP2,False)
+	Average(1,NetRs_left_right,FP2,False)
+	Average(1,NetRl_left_right,FP2,False)
+	Average(1,Albedo_left_right,FP2,False)
+	Average(1,Left_total,FP2,False)
+	Average(1,Right_total,FP2,False)
+	Average(1,Net_left_right,FP2,False)
+	Average(1,IR_left_corr,FP2,False)
+	Average(1,IR_right_corr,FP2,False)
+	Average(1,T_left_C,FP2,False)
+  Average(1,T_right_C,FP2,False)
+	
+	Average(1,SR_front,FP2,False)
+	Average(1,SR_back,FP2,False)
+	Average(1,IR_front,FP2,False)
+	Average(1,IR_back,FP2,False)
+	Average(1,NR02TC,FP2,False)
+	Average(1,NetRs_front_back,FP2,False)
+	Average(1,NetRl_front_back,FP2,False)
+	Average(1,Albedo_front_back,FP2,False)
+	Average(1,Front_total,FP2,False)
+	Average(1,Back_total,FP2,False)
+	Average(1,Net_front_back,FP2,False)
+	Average(1,IR_front_corr,FP2,False)
+	Average(1,IR_back_corr,FP2,False)
+	Average(1,T_front_C,FP2,False)
+  Average(1,T_back_C,FP2,False)
+	
+	Average(1,SR_up,FP2,False)
+	Average(1,SR_down,FP2,False)
+	Average(1,IR_up,FP2,False)
+	Average(1,IR_down,FP2,False)
+	Average(1,NR03TC,FP2,False)
+	Average(1,NetRs_up_down,FP2,False)
+	Average(1,NetRl_up_down,FP2,False)
+	Average(1,Albedo_up_down,FP2,False)
+	Average(1,Up_total,FP2,False)
+	Average(1,Down_total,FP2,False)
+	Average(1,Net_total,FP2,False)
+	Average(1,IR_up_corr,FP2,False)
+	Average(1,IR_down_corr,FP2,False)
+	Average(1,T_up_C,FP2,False)
+  Average(1,T_down_C,FP2,False)
+	Average(1,MRT,FP2,False)
+	'Average(1,TempThermocouple_C,FP2,False)
+	'Average(1,TempThermocoupleShielded_C,FP2,False) 
+	'Average(1,TempThermocouple_6,FP2,False)
+EndTable
+
+DataTable(Table2,True,-1)
+	DataInterval(0,1440,Min,10)
+	Minimum(1,BattV,FP2,False,False)
+EndTable
+
+'Main Program
+BeginProg
+	'Open Com1 for communications with the
+	'WindSonic1 (RS-232 9.6K baud) Two Dimensional Ultrasonic Wind Sensor
+	SerialOpen(Com1,9600,3,0,985)
+	'Main Scan
+	Scan(2,Sec,1,0)  'Scan(2,Sec,1,0)
+		'Default CR3000 Datalogger Battery Voltage measurement 'BattV'
+		Battery(BattV)
+		'Default CR3000 Datalogger Wiring Panel Temperature measurement 'PTemp_C'
+		PanelTemp(PTemp_C,_60Hz)
+		
+		'EE181 Temperature & Relative Humidity Sensor measurements AirTC and RH:
+		VoltSe(AirTC,1,mV1000,1,0,0,_60Hz,0.1,-40)
+		VoltSe(RH,1,mV1000,2,0,0,_60Hz,0.1,0)
+		If RH>100 AND RH<103 Then RH=100
+		
+
+		'WindSonic1 (RS-232 9.6K baud) Two Dimensional Ultrasonic Wind Sensor measurements 'WindDir', 'WS_ms', and 'WSDiag'
+		'Get data from WindSonic1 (RS-232 9.6K baud) Two Dimensional Ultrasonic Wind Sensor
+		SerialInRecord(Com1,WSStr,&h02,0,&h0D0A,ByteRet,01)
+		SplitStr(WSData(),WSStr,",",4,4)
+		WindDir=WSData(1)
+		WS_ms=WSData(2)
+		WSDiag=WSData(4)
+		ChkSumF=HextoDec(Right(WSStr,2)) Eqv CheckSum(WSStr,9,Len(WSStr)-3)
+		'Set diagnostic variables as needed
+		If ByteRet=0 Then WSDiag=NAN
+		Move(SmplsF,9,0,1)
+		Select Case WSDiag
+			Case=0
+				SmplsF=1
+			Case=1
+				Diag1F=1
+			Case=2
+				Diag2F=1
+			Case=4
+				Diag4F=1
+			Case=8
+				Diag8F=1
+			Case=9
+				Diag9F=1
+			Case=10
+				Diag10F=1
+			Else
+				NNDF=1
+		EndSelect
+		If NOT (ByteRet<>0 IMP ChkSumF) Then CSEF=1
+		GPS(GPSData(),Com2,-7*3600,100,NMEASent(1)) 'GPS(GPSData(),Com2,-7*3600,100,NMEASent(0))
+		'lat = Latitude_A + Latitude_B/60
+		'lon = Longitude_A + Longitude_B/60
+		speed_m = speed * 0.515
+
+    'NR01 Net Radiometer NO. 1 measurements 'SR_left', 'SR_right', 'IR_left', 'IR_right', 'NR01TC', 'NR01TK',
+		'NetRs_left_right', 'NetRl_left_right', 'Albedo_left_right', 'Left_total', 'Right_total', 'Net_left_right', 'IR_left_corr', and 'IR_right_corr'
+		'LEFT AND RIGHT (weighting 0.22)
+    VoltDiff(SR_left,1,mV50,2,True,0,_60Hz,55.30973,0)'adjusted calibration
+		VoltDiff(SR_right,1,mV50,3,True,0,_60Hz,61.6143,0)'adjusted calibration
+		VoltDiff(IR_left,1,mV20,4,True,0,_60Hz,79.5545,0)'adjusted calibration
+		VoltDiff(IR_right,1,mV20,5,True,0,_60Hz,78.67821,0)'adjusted calibration
+		Resistance(NR01TC,1,mV200,6,1,1,1675,True,True,0,_60Hz,1,0)
+		NR01TC=NR01TC/100
+		PRT(NR01TC,1,NR01TC,1,0)
+		NR01TK=NR01TC+273.15
+		NetRs_left_right=SR_left-SR_right
+		NetRl_left_right=IR_left-IR_right
+		Albedo_left_right=SR_right/SR_left
+		Left_total=SR_left+IR_left
+		Right_total=SR_right+IR_right
+		Net_left_right=Left_total-Right_total
+		IR_left_corr=IR_left+5.67*10^-8*NR01TK^4
+		IR_right_corr=IR_right+5.67*10^-8*NR01TK^4
+		T_left_C=(IR_left_corr/(5.67*10^-8))^(1/4)-273.15
+    T_right_C=(IR_right_corr/(5.67*10^-8))^(1/4)-273.15
+			
+    'net radiometer NO. 3 
+    ' UP AND DOWN (weighting 0.06)
+    'Turn AM16/32 Multiplexer On
+		PortSet(6,1)
+		Delay(0,150,mSec)
+		'Switch to next AM16/32 Multiplexer channel
+		PulsePort(5,10000)
+		'Differential Voltage measurements 'SR_up' on the AM16/32 Multiplexer
+		VoltDiff(SR_up,1,mV50,7,True,0,_60Hz,58.7199,0) 'adjusted calibration
+		'Switch to next AM16/32 Multiplexer channel
+		PulsePort(5,10000)
+		'Differential Voltage measurements 'SR_down' on the AM16/32 Multiplexer
+		VoltDiff(SR_down,1,mV50,7,True,0,_60Hz,52.08333,0) 'adjusted calibration
+		'Switch to next AM16/32 Multiplexer channel
+		PulsePort(5,10000)
+		'Differential Voltage measurements 'IR_up' on the AM16/32 Multiplexer
+		VoltDiff(IR_up,1,mV20,7,True,0,_60Hz,81.96721,0) 'adjusted calibration
+		'Switch to next AM16/32 Multiplexer channel
+		PulsePort(5,10000)
+		'Differential Voltage measurements 'IR_down' on the AM16/32 Multiplexer
+		VoltDiff(IR_down,1,mV20,7,True,0,_60Hz,81.83306,0) 'adjusted calibration
+		'Switch to next AM16/32 Multiplexer channel
+		PulsePort(5,10000)
+		'Type T (copper-constantan) Thermocouple measurements 'Temp_C' on the AM16/32 Multiplexer
+		'TCDiff(TempThermocoupleShielded_C,1,mV20C,7,TypeT,PTemp_C,True,0,_60Hz,1,0)
+		'PulsePort(5,10000)
+		'Type T (copper-constantan) Thermocouple measurements 'Temp_C' on the AM16/32 Multiplexer
+		'TCDiff(TempThermocouple_6,1,mV20C,7,TypeT,PTemp_C,True,0,_60Hz,1,0)
+  	'Turn AM16/32 Multiplexer Off
+		PortSet(6,0)
+		Delay(0,150,mSec)
+		
+    'NR01 Net Radiometer NO. 2 measurements
+		'BACK AND FRONT (weighting 0.22)
+    VoltDiff(SR_front,1,mV50,8,True,0,_60Hz,50.22602,0)  'adjusted calibration
+		VoltDiff(SR_back,1,mV50,9,True,0,_60Hz,55.37099,0)   'adjusted calibration
+		VoltDiff(IR_front,1,mV20,10,True,0,_60Hz,69.68641,0) 'adjusted calibration
+		VoltDiff(IR_back,1,mV20,11,True,0,_60Hz,72.67442,0) 'adjusted calibration
+		Resistance(NR02TC,1,mV200,12,2,1,1675,True,True,0,_60Hz,1,0)
+		NR02TC=NR02TC/100
+		PRT(NR02TC,1,NR02TC,1,0)
+		NR02TK=NR02TC+273.15
+		NetRs_front_back=SR_front-SR_back
+		NetRl_front_back=IR_front-IR_back
+		Albedo_front_back=SR_back/SR_front
+		Front_total=SR_front+IR_front
+		Back_total=SR_back+IR_back
+		Net_front_back=Front_total-Back_total
+		IR_front_corr=IR_front+5.67*10^-8*NR02TK^4
+		IR_back_corr=IR_back+5.67*10^-8*NR02TK^4
+		T_front_C=(IR_front_corr/(5.67*10^-8))^(1/4)-273.15
+    T_back_C=(IR_back_corr/(5.67*10^-8))^(1/4)-273.15
+		  
+		'Resistance measurement NR-01_3
+    Resistance(NR03TC,1,mV200,13,3,1,1675,True,True,0,_60Hz,1,0) 
+    NR03TC=NR03TC/100
+		PRT(NR03TC,1,NR03TC,1,0)
+		
+		NR03TK=NR03TC+273.15
+		NetRs_up_down=SR_up-SR_down
+		NetRl_up_down=IR_up-IR_down
+		Albedo_up_down=SR_down/SR_up
+		Up_total=SR_up+IR_up
+		Down_total=SR_down+IR_down
+		Net_total=Up_total-Down_total
+		IR_up_corr=IR_up+5.67*10^-8*NR03TK^4
+		IR_down_corr=IR_down+5.67*10^-8*NR03TK^4
+		T_up_C=(IR_up_corr/(5.67*10^-8))^(1/4)-273.15
+    T_down_C=(IR_down_corr/(5.67*10^-8))^(1/4)-273.15
+		
+    'SR_left/DnCo and IR_left/DnCo LEFT and RIGHT
+    'SR_left/DnCo_2/IR_left/DnCo_2 BACK and FRONT
+    'SR_left/DnCo_3/IR_left/DnCo_3 UP and DOWN
+     MRT = -273.15+((0.22*(0.7*SR_left + 0.97*IR_left_corr) + 0.22*(0.7*SR_right + 0.97*IR_right_corr)+0.22*(0.7*SR_front + 0.97*IR_front_corr) + 0.22*(0.7*SR_back + 0.97*IR_back_corr)+0.06*(0.7*SR_up + 0.97*IR_up_corr) + 0.06*(0.7*SR_down + 0.97*IR_down_corr))/(0.97*(5.67*10^-8)))^0.25
+
+    'Type T (copper-constantan) Thermocouple measurements 'Temp_C'
+		'TCDiff(TempThermocouple_C,1,mV20C,14,TypeT,PTemp_C,True,0,_60Hz,1,0)
+
+		'Call Data Tables and Store Data
+		CallTable Output
+		CallTable Table2
+	NextScan
+EndProg

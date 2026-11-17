@@ -293,12 +293,12 @@
     function fillMetrics() {
       const m = st.golden.metrics, p = st.golden.paper_metrics, tr = st.golden.training;
       // Other SHaDE Lab models, as published ("–" = not reported).
-      // VisionMRT: accepted, Sustainable Cities and Society; 1,174 records at 132 Phoenix-area sites.
+      // VisionMRT: Middel et al., Sustainable Cities and Society 2026; 1,174 records at 132 Phoenix-area sites.
       // PINN-MRT: Shaeri et al. ICCV Workshops 2025 / arXiv:2503.08482, best configurations (abstract).
       const rows = [
         ["This sample model", `${tr.n_train} train / ${tr.n_test} held-out rows`, m.r2, m.rmse],
         ["WebMRT, published full model", "AlKhaled et al. 2024", p.r2, p.rmse],
-        ["VisionMRT", "accepted, Sustainable Cities and Society", 0.94, 3.12],
+        ["VisionMRT", "Middel et al. 2026", 0.94, 3.12],
         ["PINN-MRT", "Shaeri et al. 2025, best configurations", 0.88, 3.50],
       ];
       $(root, ".uhwm-metrics").innerHTML = `<table><thead><tr><th>Model</th><th>R²</th><th>RMSE (°C)</th></tr></thead><tbody>` +
