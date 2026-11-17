@@ -23,6 +23,9 @@
           <a href="#coolroutes">Cool Routes</a>
           <a href="#visionmrt">VisionMRT</a>
           <a href="#webmrt">WebMRT</a>
+          <a href="#panomrt">PanoMRT</a>
+          <i class="dd-sep" role="separator"></i>
+          <a href="https://shadelab.asu.edu/projects/" target="_blank" rel="noopener" class="dd-more">More projects ↗</a>
         </div>
       </div>
       <div class="dd">
@@ -30,6 +33,8 @@
         <div class="dd-m">
           <a href="#marty">MaRTy</a>
           <a href="#martiny">MaRTiny</a>
+          <i class="dd-sep" role="separator"></i>
+          <a href="https://shadelab.asu.edu/tools-data/" target="_blank" rel="noopener" class="dd-more">More tools ↗</a>
         </div>
       </div>
       <a href="#publications">Papers</a>
@@ -60,17 +65,13 @@
 <div class="hero">
   <canvas id="heroCanvas" aria-hidden="true"></canvas>
   <div class="wrap">
-    <div class="eyebrow">SHaDE Lab · Arizona State University</div>
+    <a class="hero-logo" href="https://www.asu.edu/" target="_blank" rel="noopener" aria-label="Arizona State University"><img src="assets/asu-logo.png" alt="Arizona State University" width="400" height="73"><img class="hero-logo-stroke" src="assets/asu-logo.png" alt="" aria-hidden="true" width="400" height="73"></a>
+    <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false"><filter id="logoStroke" x="-8%" y="-15%" width="116%" height="130%"><feMorphology in="SourceAlpha" operator="dilate" radius=".6" result="grown"/><feComposite in="grown" in2="SourceAlpha" operator="out" result="ring"/><feFlood flood-color="#e8b923" result="gold"/><feComposite in="gold" in2="ring" operator="in"/></filter></svg>
     <h1>Measuring and modeling <em>human heat exposure</em></h1>
-    <p class="lead">Three peer-reviewed tools that turn weather, LiDAR and street-level imagery into mean radiant temperature, the part of outdoor heat that air temperature misses. Try the live tools, read the papers, explore the methods.</p>
+    <p class="lead lab"><span class="lab-name">The SHaDE Lab Showcase</span><span class="lab-full"><b>S</b>ensable <b>H</b>eatscapes <b>a</b>nd <b>D</b>igital <b>E</b>nvironments</span></p>
     <div class="cta">
       <a class="btn primary" href="#projects">Explore the projects</a>
       <a class="btn" href="#publications">Read the papers</a>
-    </div>
-    <div class="stats">
-      <div><b>3</b><span>published tools</span></div>
-      <div><b>3</b><span>input modalities: weather · LiDAR · imagery</span></div>
-      <div><b>MRT · UTCI · PET</b><span>thermal exposure outputs</span></div>
     </div>
   </div>
 </div>
@@ -80,10 +81,10 @@
   <div class="wrap">
     <div class="head reveal">
       <div class="eyebrow">Projects</div>
-      <h2>One question, three ways to answer it</h2>
-      <p>How hot does a place <em>feel</em> to a person standing in it? Mean radiant temperature (MRT) captures the radiation a body absorbs from sun, sky and surfaces, and it often drives outdoor thermal stress more than air temperature does. Each tool below estimates it from a different kind of data.</p>
+      <h2>One question, four ways to answer it</h2>
+      <p>How hot does a place <em>feel</em> to a person standing in it? Mean radiant temperature (MRT) captures the radiation a body absorbs from sun, sky and surfaces, and it often drives outdoor thermal stress more than air temperature does. Each project below estimates it from a different kind of data.</p>
     </div>
-    <div class="cards">
+    <div class="cards four">
       <a class="card reveal" href="#coolroutes">
         <div class="ico g1">CR</div><h3>Cool Routes</h3>
         <p class="muted">Walking routes on ASU’s campus that trade a little distance for a lot less radiant heat, driven by hourly SOLWEIG forecasts.</p>
@@ -98,6 +99,11 @@
         <div class="ico g2">WM</div><h3>WebMRT</h3>
         <p class="muted">A web tool that predicts summertime MRT from standard meteorological inputs using machine learning trained on MaRTy field data.</p>
         <div class="tags"><span class="tag">Machine learning</span><span class="tag">LightGBM</span><span class="tag">Meteorology</span></div>
+      </a>
+      <a class="card reveal" href="#panomrt">
+        <div class="ico g3">PM</div><h3>PanoMRT</h3>
+        <p class="muted">MRT, UTCI and PET from a thermal 360° panorama: every pixel is a measured surface temperature, so the long-wave exchange is observed, not assumed.</p>
+        <div class="tags"><span class="tag">Infrared imaging</span><span class="tag">Radiation budget</span><span class="tag">Open model</span></div>
       </a>
     </div>
   </div>
@@ -233,8 +239,40 @@
   </div>
 </section>
 
+<!-- ============ PANOMRT ============ -->
+<section id="panomrt">
+  <div class="wrap">
+    <div class="proj-top">
+      <div class="reveal">
+        <div class="eyebrow">Project 04 · Thermal imaging</div>
+        <h2>PanoMRT</h2>
+        <p class="muted" style="margin-top:14px;font-size:1.05rem">A model that turns a thermal 360° panorama and standard weather data into mean radiant temperature, UTCI and PET. Where VisionMRT reconstructs a scene from photographs, PanoMRT starts from measured surface temperatures: every pixel of an infrared panorama is the temperature of a tree, wall, pavement or patch of sky.</p>
+        <ul class="feat">
+          <li><span><b>Surfaces, measured.</b> Long-wave exchange with every surface is taken from the thermal image instead of being estimated, which the paper found matters most in the shade and at midday.</span></li>
+          <li><span><b>A six-direction budget.</b> The panorama becomes six cube faces and five fisheye views; sky view factor, sun position and a sky mask decide how much direct and diffuse sunlight and sky and surface radiation reach a person from above, below and the four sides.</span></li>
+          <li><span><b>Validated in the field.</b> Observed and modeled at 19 sites that differ in ground cover, sky view factor, sun or shade, six times a day: RMSE 4.1 °C for MRT, 2.6 °C for PET and 1.2 °C for UTCI.</span></li>
+          <li><span><b>Peer-reviewed.</b> Published in <i>Science of The Total Environment</i> 859:160301 (2023).</span></li>
+          <li><span><b>Open code, no web tool.</b> PanoMRT is a method and a command-line model, so there is no live demo here. The code runs end to end on synthetic panoramas in its test suite.</span></li>
+        </ul>
+        <div class="links">
+          <a class="btn primary" data-link="panomrt.paper">Paper</a>
+          <a class="btn" data-link="panomrt.code">Code</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="pipe reveal">
+      <div class="step"><b>Thermal panorama</b><span>Equirectangular infrared image, one grey value per surface temperature</span></div>
+      <div class="step"><b>Cube faces</b><span>Six faces, then equal-area fisheye views in 32 zenith rings</span></div>
+      <div class="step"><b>Sky view factor</b><span>Cosine-weighted share of open sky, plus where the sun sits in the image</span></div>
+      <div class="step"><b>Radiation budget</b><span>Long wave from sky and surfaces, direct and diffuse short wave, six directions</span></div>
+      <div class="step"><b>MRT · UTCI · PET</b><span>Mean radiant temperature and the two comfort indices</span></div>
+    </div>
+  </div>
+</section>
+
 <!-- ============ TOOLS ============ -->
-<section id="tools">
+<section id="tools" class="alt">
   <div class="wrap">
     <div class="head reveal">
       <div class="eyebrow">Tools</div>
@@ -257,7 +295,7 @@
 </section>
 
 <!-- ============ MARTY ============ -->
-<section id="marty" class="alt">
+<section id="marty">
   <div class="wrap">
     <div class="proj-top">
       <div class="reveal">
@@ -284,7 +322,7 @@
 </section>
 
 <!-- ============ MARTINY ============ -->
-<section id="martiny">
+<section id="martiny" class="alt">
   <div class="wrap">
     <div class="proj-top">
       <div class="reveal">
@@ -292,9 +330,9 @@
         <h2>MaRTiny</h2>
         <p class="muted" style="margin-top:14px;font-size:1.05rem">MaRTy’s tiny sibling: a low-cost IoT biometeorological device that estimates mean radiant temperature from a globe thermometer, and uses embedded computer vision to count how many people stand in sun and in shade.</p>
         <ul class="feat">
-          <li><span><b>Globe and weather sensing.</b> A grey globe on a DS18B20 probe, an air probe under a white radiation cup, a DHT22 humidity sensor, a UV sensor and a cup anemometer, all read by an Arduino Uno.</span></li>
+          <li><span><b>Globe and weather sensing.</b> A grey globe on a DS18B20 probe, a DHT22 humidity sensor and a second DS18B20 temperature sensor (each hanging in its own white cup under the board), a UV sensor and a cup anemometer, all read by an Arduino Uno.</span></li>
           <li><span><b>Computer vision.</b> An ESP32-CAM captures images of the space; a server runs YOLO pedestrian detection and shadow segmentation on them to count how many people stand in sun and in shade.</span></li>
-          <li><span><b>Solar powered.</b> A south-facing solar panel feeds a battery in a second box on the lamp post, which also holds a Wi-Fi dongle and powers the sensor box. A machine-learning correction brings globe-based MRT to an RMSE of about 4 °C against the six-directional reference, as a proof of concept (2022 paper).</span></li>
+          <li><span><b>Solar powered.</b> A south-facing solar panel charges a Voltaic battery pack in a second box on the lamp post. One of its USB ports carries a Wi-Fi dongle, the other powers the sensor box. A machine-learning correction brings globe-based MRT to an RMSE of about 4 °C against the six-directional reference, as a proof of concept (2022 paper).</span></li>
           <li><span><b>In the parks.</b> Mounted on a lamp post, with the sensor box on one side and a south-facing solar panel, carrying the globe thermometer and UV sensor, on the other. Deployed in City of Tempe parks from 2021 to 2023 to study how the use of public space changes with heat.</span></li>
         </ul>
         <div class="links">
@@ -311,7 +349,7 @@
 </section>
 
 <!-- ============ PUBLICATIONS ============ -->
-<section id="publications" class="alt">
+<section id="publications">
   <div class="wrap">
     <div class="head reveal">
       <div class="eyebrow">Publications</div>
@@ -322,20 +360,20 @@
       <article class="reveal">
         <div class="t">Cool Routes: Real-Time Human Thermal Exposure Routing</div>
         <div class="a">Buo, I. N. K., Khan, W. H., Crabtree, E., Emmott, F., Hariyani, D., Middel, A. · <i>Building and Environment</i> (in press)</div>
-        <div class="row"><a class="btn" href="https://doi.org/10.1016/j.buildenv.2026.114622" target="_blank" rel="noopener">DOI ↗</a><button class="small" data-copy="bib1">Copy BibTeX</button></div>
-        <pre id="bib1">@article{buo_coolroutes,
+        <div class="row"><a class="btn" href="https://doi.org/10.1016/j.buildenv.2026.114622" target="_blank" rel="noopener">DOI ↗</a><button class="btn bib-toggle" type="button" aria-expanded="false" aria-controls="bib1-panel">BibTeX</button></div>
+        <div class="bib" id="bib1-panel" inert><div class="bib-in"><div class="bib-bar"><button class="small" data-copy="bib1">Copy BibTeX</button></div><pre id="bib1">@article{buo_coolroutes,
   title   = {Cool Routes: Real-Time Human Thermal Exposure Routing},
   author  = {Buo, Isaac Newton Kwasi and Khan, Waqar Hassan and Crabtree, Evan and Emmott, Fletcher and Hariyani, Devbrat and Middel, Ariane},
   journal = {Building and Environment},
   doi     = {10.1016/j.buildenv.2026.114622},
   note    = {in press}
-}</pre>
+}</pre></div></div>
       </article>
       <article class="reveal">
         <div class="t">VisionMRT: Physics-based outdoor thermal exposure and comfort modeling using photographs and 3D reconstruction</div>
         <div class="a">Middel, A., Shaeri, P., Woo, R. T., Krayenhoff, E. S. · <i>Sustainable Cities and Society</i> 151:108016 (2026)</div>
-        <div class="row"><a class="btn" href="https://doi.org/10.1016/j.scs.2026.108016" target="_blank" rel="noopener">DOI ↗</a><button class="small" data-copy="bib4">Copy BibTeX</button></div>
-        <pre id="bib4">@article{middel_visionmrt,
+        <div class="row"><a class="btn" href="https://doi.org/10.1016/j.scs.2026.108016" target="_blank" rel="noopener">DOI ↗</a><button class="btn bib-toggle" type="button" aria-expanded="false" aria-controls="bib4-panel">BibTeX</button></div>
+        <div class="bib" id="bib4-panel" inert><div class="bib-in"><div class="bib-bar"><button class="small" data-copy="bib4">Copy BibTeX</button></div><pre id="bib4">@article{middel_visionmrt,
   title        = {VisionMRT: Physics-based outdoor thermal exposure and comfort modeling using photographs and 3D reconstruction},
   author       = {Middel, Ariane and Shaeri, Pouya and Woo, Ryan T. and Krayenhoff, E. Scott},
   journal      = {Sustainable Cities and Society},
@@ -343,13 +381,13 @@
   pages        = {108016},
   year         = {2026},
   doi          = {10.1016/j.scs.2026.108016}
-}</pre>
+}</pre></div></div>
       </article>
       <article class="reveal">
         <div class="t">WebMRT: An online tool to predict summertime mean radiant temperature using machine learning</div>
         <div class="a">AlKhaled, S. R., Middel, A., Shaeri, P., Buo, I., Schneider, F. A. · <i>Sustainable Cities and Society</i> 115:105861 (2024)</div>
-        <div class="row"><a class="btn" href="https://doi.org/10.1016/j.scs.2024.105861" target="_blank" rel="noopener">DOI ↗</a><button class="small" data-copy="bib2">Copy BibTeX</button></div>
-        <pre id="bib2">@article{alkhaled2024webmrt,
+        <div class="row"><a class="btn" href="https://doi.org/10.1016/j.scs.2024.105861" target="_blank" rel="noopener">DOI ↗</a><button class="btn bib-toggle" type="button" aria-expanded="false" aria-controls="bib2-panel">BibTeX</button></div>
+        <div class="bib" id="bib2-panel" inert><div class="bib-in"><div class="bib-bar"><button class="small" data-copy="bib2">Copy BibTeX</button></div><pre id="bib2">@article{alkhaled2024webmrt,
   title   = {WebMRT: An online tool to predict summertime mean radiant temperature using machine learning},
   author  = {AlKhaled, Saud R. and Middel, Ariane and Shaeri, Pouya and Buo, Isaac and Schneider, Florian A.},
   journal = {Sustainable Cities and Society},
@@ -357,13 +395,27 @@
   pages   = {105861},
   year    = {2024},
   doi     = {10.1016/j.scs.2024.105861}
-}</pre>
+}</pre></div></div>
+      </article>
+      <article class="reveal">
+        <div class="t">PanoMRT: Panoramic infrared thermography to model human thermal exposure and comfort</div>
+        <div class="a">Middel, A., Huff, M., Krayenhoff, E. S., Schneider, F. A., Udupa, A. · <i>Science of The Total Environment</i> 859:160301 (2023)</div>
+        <div class="row"><a class="btn" href="https://doi.org/10.1016/j.scitotenv.2022.160301" target="_blank" rel="noopener">DOI ↗</a><button class="btn bib-toggle" type="button" aria-expanded="false" aria-controls="bib7-panel">BibTeX</button></div>
+        <div class="bib" id="bib7-panel" inert><div class="bib-in"><div class="bib-bar"><button class="small" data-copy="bib7">Copy BibTeX</button></div><pre id="bib7">@article{middel_panomrt,
+  title   = {PanoMRT: Panoramic infrared thermography to model human thermal exposure and comfort},
+  author  = {Middel, Ariane and Huff, Matthew and Krayenhoff, E. Scott and Schneider, Florian A. and Udupa, Ananth},
+  journal = {Science of The Total Environment},
+  volume  = {859},
+  pages   = {160301},
+  year    = {2023},
+  doi     = {10.1016/j.scitotenv.2022.160301}
+}</pre></div></div>
       </article>
       <article class="reveal">
         <div class="t">Micrometeorological determinants of pedestrian thermal exposure during record-breaking heat in Tempe, Arizona: Introducing the MaRTy observational platform</div>
         <div class="a">Middel, A., Krayenhoff, E. S. · <i>Science of The Total Environment</i> 687:137–151 (2019) · MaRTy</div>
-        <div class="row"><a class="btn" href="https://doi.org/10.1016/j.scitotenv.2019.06.085" target="_blank" rel="noopener">DOI ↗</a><button class="small" data-copy="bib5">Copy BibTeX</button></div>
-        <pre id="bib5">@article{middel2019marty,
+        <div class="row"><a class="btn" href="https://doi.org/10.1016/j.scitotenv.2019.06.085" target="_blank" rel="noopener">DOI ↗</a><button class="btn bib-toggle" type="button" aria-expanded="false" aria-controls="bib5-panel">BibTeX</button></div>
+        <div class="bib" id="bib5-panel" inert><div class="bib-in"><div class="bib-bar"><button class="small" data-copy="bib5">Copy BibTeX</button></div><pre id="bib5">@article{middel2019marty,
   title   = {Micrometeorological determinants of pedestrian thermal exposure during record-breaking heat in Tempe, Arizona: Introducing the MaRTy observational platform},
   author  = {Middel, Ariane and Krayenhoff, E. Scott},
   journal = {Science of The Total Environment},
@@ -371,13 +423,13 @@
   pages   = {137--151},
   year    = {2019},
   doi     = {10.1016/j.scitotenv.2019.06.085}
-}</pre>
+}</pre></div></div>
       </article>
       <article class="reveal">
         <div class="t">MaRTiny: A Low-Cost Biometeorological Sensing Device With Embedded Computer Vision for Urban Climate Research</div>
         <div class="a">Kulkarni, K. K., Schneider, F. A., Gowda, T., Jayasuriya, S., Middel, A. · <i>Frontiers in Environmental Science</i> 10:866240 (2022) · MaRTiny</div>
-        <div class="row"><a class="btn" href="https://doi.org/10.3389/fenvs.2022.866240" target="_blank" rel="noopener">DOI ↗</a><button class="small" data-copy="bib6">Copy BibTeX</button></div>
-        <pre id="bib6">@article{kulkarni2022martiny,
+        <div class="row"><a class="btn" href="https://doi.org/10.3389/fenvs.2022.866240" target="_blank" rel="noopener">DOI ↗</a><button class="btn bib-toggle" type="button" aria-expanded="false" aria-controls="bib6-panel">BibTeX</button></div>
+        <div class="bib" id="bib6-panel" inert><div class="bib-in"><div class="bib-bar"><button class="small" data-copy="bib6">Copy BibTeX</button></div><pre id="bib6">@article{kulkarni2022martiny,
   title   = {MaRTiny: A Low-Cost Biometeorological Sensing Device With Embedded Computer Vision for Urban Climate Research},
   author  = {Kulkarni, Karthik K. and Schneider, Florian A. and Gowda, Tejaswi and Jayasuriya, Suren and Middel, Ariane},
   journal = {Frontiers in Environmental Science},
@@ -385,19 +437,19 @@
   pages   = {866240},
   year    = {2022},
   doi     = {10.3389/fenvs.2022.866240}
-}</pre>
+}</pre></div></div>
       </article>
       <article class="reveal">
         <div class="t">A Multimodal Physics-Informed Neural Network Approach for Mean Radiant Temperature Modeling</div>
         <div class="a">Shaeri, P., AlKhaled, S., Middel, A. · <i>Proceedings of the IEEE/CVF ICCV Workshops</i>, pp. 6606–6615 (2025) · related image-based MRT work</div>
-        <div class="row"><a class="btn" href="https://ieeexplore.ieee.org/document/11375311" target="_blank" rel="noopener">IEEE Xplore ↗</a><button class="small" data-copy="bib3">Copy BibTeX</button></div>
-        <pre id="bib3">@inproceedings{shaeri2025multimodal,
+        <div class="row"><a class="btn" href="https://ieeexplore.ieee.org/document/11375311" target="_blank" rel="noopener">IEEE Xplore ↗</a><button class="btn bib-toggle" type="button" aria-expanded="false" aria-controls="bib3-panel">BibTeX</button></div>
+        <div class="bib" id="bib3-panel" inert><div class="bib-in"><div class="bib-bar"><button class="small" data-copy="bib3">Copy BibTeX</button></div><pre id="bib3">@inproceedings{shaeri2025multimodal,
   title     = {A Multimodal Physics-Informed Neural Network Approach for Mean Radiant Temperature Modeling},
   author    = {Shaeri, Pouya and AlKhaled, Saud and Middel, Ariane},
   booktitle = {Proceedings of the IEEE/CVF International Conference on Computer Vision (ICCV) Workshops},
   pages     = {6606--6615},
   year      = {2025}
-}</pre>
+}</pre></div></div>
       </article>
     </div>
   </div>

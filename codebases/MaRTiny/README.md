@@ -51,8 +51,8 @@ Arduino Uno pins, as used by the sketch:
 | A1 | 3.3 V reference (read to scale the UV signal) |
 | A4 | Cup anemometer, analog voltage |
 | A2 | Battery voltage through a 1:2 divider |
-| D3 | DHT22 humidity sensor |
-| D4 | Two DS18B20 temperature probes on a OneWire bus (in the paper, one sits in the globe and one in a radiation cup for air temperature). The sketch reports them in bus order as `Dallas1` and `Dallas2`; check which is which when you wire yours. |
+| D3 | DHT22 humidity sensor, hanging in one of the two white cups under the board |
+| D4 | Two DS18B20 temperature probes on a OneWire bus: one in the globe, the other in the second white cup under the board. The sketch reports them in bus order as `Dallas1` and `Dallas2`; check which is which when you wire yours. |
 | D6, D7 | Power control of the ESP32-CAM (LOW = off, HIGH = on) |
 | TX, RX | Serial line to the ESP32-CAM, 115200 baud |
 

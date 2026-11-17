@@ -68,7 +68,8 @@ export function createViewer(host, spec) {
   scene.add(sun);
   const rimLight = new THREE.DirectionalLight(0xbcd2ff, 0.9); rimLight.position.set(-3, 2.2, -3); scene.add(rimLight);
 
-  const built = spec.build();
+  const view = { flyTo: (...a) => flyTo(...a), flyBack: (...a) => flyBack(...a) };      // camera moves a model can ask for
+  const built = spec.build(view);
   scene.add(built.root);
   built.root.traverse((o) => { if (o.isMesh) { o.castShadow = true; o.receiveShadow = true; } });
 
@@ -97,15 +98,86 @@ export function createViewer(host, spec) {
   const controls = new OrbitControls(camera, canvas);
   controls.enableDamping = true; controls.dampingFactor = 0.08; controls.autoRotate = true; controls.autoRotateSpeed = 1.7;
   controls.minDistance = cam.min ?? 0.6; controls.maxDistance = cam.max ?? 6; controls.maxPolarAngle = Math.PI / 2 - 0.03; controls.enablePan = false;
+  // pinching (two fingers, or a trackpad pinch) zooms as fast as the + and - buttons, and keeps gliding for a moment after the fingers lift
+  const touches = new Map(), PINCH = 2.6;
+  let pinchVel = 0, pinchD = 0, pinchT = 0;                                                       // pinchVel: zoom rate (natural-log scale per second); negative = zooming in
+  const pinchGap = () => { const [a, b] = [...touches.values()]; return Math.hypot(a.x - b.x, a.y - b.y); };
+  canvas.addEventListener("pointerdown", (e) => {
+    if (e.pointerType !== "touch") return;
+    touches.set(e.pointerId, { x: e.clientX, y: e.clientY });
+    if (touches.size > 1) { controls.zoomSpeed = PINCH; pinchVel = 0; pinchD = pinchGap(); pinchT = performance.now(); }
+  });
+  canvas.addEventListener("pointermove", (e) => {
+    const t = touches.get(e.pointerId); if (!t) return;
+    t.x = e.clientX; t.y = e.clientY;
+    if (touches.size !== 2) return;
+    const d = pinchGap(), now = performance.now(), dt = (now - pinchT) / 1000;
+    if (dt > 0.004 && pinchD > 0 && d > 0) { pinchVel = pinchVel * 0.55 + (Math.log(pinchD / d) / dt * PINCH) * 0.45; pinchD = d; pinchT = now; }
+  });
+  const lift = (e) => {
+    if (!touches.delete(e.pointerId)) return;
+    if (touches.size < 2) { controls.zoomSpeed = 1; if (performance.now() - pinchT > 90 || Math.abs(pinchVel) < 0.2) pinchVel = 0; }
+  };
+  canvas.addEventListener("pointerup", lift); canvas.addEventListener("pointercancel", lift);
+  let wheelT = 0;
+  canvas.addEventListener("wheel", (e) => {                                                        // ctrl + wheel is how a trackpad reports a pinch
+    controls.zoomSpeed = e.ctrlKey ? PINCH : 1;
+    if (!e.ctrlKey) return;
+    const now = performance.now(), dt = Math.min(0.05, Math.max(0.008, (now - wheelT) / 1000)); wheelT = now;
+    const lnf = Math.log(0.95) * PINCH * Math.abs(e.deltaY * 0.01) * (e.deltaY < 0 ? 1 : -1);
+    pinchVel = pinchVel * 0.5 + (lnf / dt) * 0.5;
+  }, { capture: true, passive: true });
+  const stepPinch = (dt) => {                                                                      // the glide after a pinch
+    if (!pinchVel || touches.size > 1) return;
+    const off = camera.position.clone().sub(controls.target), len = off.length();
+    const to = Math.min(controls.maxDistance, Math.max(controls.minDistance, len * Math.exp(pinchVel * dt)));
+    camera.position.copy(controls.target).addScaledVector(off.normalize(), to);
+    pinchVel *= Math.exp(-dt * 3.2); if (Math.abs(pinchVel) < 0.02 || to <= controls.minDistance || to >= controls.maxDistance) pinchVel = 0;
+  };
   const home = () => { camera.position.set(...cam.pos); controls.target.set(...cam.target); controls.update(); };
   home();
   const spinBtn = q('[data-act="spin"]');
-  let manualOff = false, resumeTimer = 0;                                            // manualOff: the visitor pressed the button to stop it
+  let manualOff = false, resumeTimer = 0, holdSpin = false;                                            // manualOff: the visitor pressed the button to stop it
   const setSpin = (on) => { controls.autoRotate = on; spinBtn.setAttribute("aria-pressed", String(on)); };
+  setSpin(true);                                                                                        // spinning from the first frame, in every viewer
   controls.addEventListener("start", () => { clearTimeout(resumeTimer); setSpin(false); });                       // pause while dragging
-  controls.addEventListener("end", () => { clearTimeout(resumeTimer); if (!manualOff) resumeTimer = setTimeout(() => setSpin(true), 3500); });   // and pick up again shortly after
+  controls.addEventListener("end", () => { clearTimeout(resumeTimer); if (!manualOff && !holdSpin) resumeTimer = setTimeout(() => setSpin(true), 3500); });   // and pick up again shortly after
   q('[data-act="reset"]').addEventListener("click", () => { home(); manualOff = false; setSpin(true); });
   spinBtn.addEventListener("click", () => { clearTimeout(resumeTimer); manualOff = controls.autoRotate; setSpin(!controls.autoRotate); });
+
+  // camera flights: glide to a pose, and later back to where the visitor was
+  let tween = null, saved = null;
+  const calm = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const ease = (t) => (t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2);
+  const startTween = (pos, target, ms, next = null, curve = ease) => {
+    const to = { pos: new THREE.Vector3(...pos), target: new THREE.Vector3(...target) };
+    if (calm || !ms) { camera.position.copy(to.pos); controls.target.copy(to.target); controls.update(); return; }
+    const sph = (p, t) => new THREE.Spherical().setFromVector3(p.clone().sub(t));                  // fly on an arc around the target, so the turn is spread over the whole flight
+    const fromTarget = controls.target.clone(), a = sph(camera.position, fromTarget), b = sph(to.pos, to.target);
+    let dTheta = b.theta - a.theta; dTheta -= Math.round(dTheta / (2 * Math.PI)) * 2 * Math.PI;      // shortest way round
+    tween = { t0: performance.now(), ms, a, b, dTheta, fromTarget, to, next, curve };
+  };
+  const flyTo = (pos, target, ms = 1000, via = null) => {                                           // via: a waypoint to rise to first, then come in from there
+    if (!saved) saved = { pos: camera.position.toArray(), target: controls.target.toArray() };   // remember where the visitor was
+    holdSpin = true; clearTimeout(resumeTimer); setSpin(false); zoomGoal = null;
+    if (via) startTween(via.pos, target, ms * 0.55, () => startTween(pos, target, ms * 0.45, null, (t) => 1 - (1 - t) * (1 - t)), (t) => t * (2 - t) * 0.5 + t * t * 0.5);
+    else startTween(pos, target, ms);
+  };
+  const flyBack = (ms = 1000, via = null) => {                                                       // via: a waypoint to back out to first
+    holdSpin = false;
+    if (saved && via) { const s2 = saved; startTween(via.pos, controls.target.toArray(), ms * 0.45, () => startTween(s2.pos, s2.target, ms * 0.55, null, (t) => 1 - (1 - t) * (1 - t)), (t) => t * (2 - t) * 0.5 + t * t * 0.5); saved = null; }
+    else if (saved) { startTween(saved.pos, saved.target, ms); saved = null; }
+    if (!manualOff) { clearTimeout(resumeTimer); resumeTimer = setTimeout(() => setSpin(true), ms + 400); }
+  };
+  controls.addEventListener("start", () => { tween = null; });                                  // the visitor takes over
+  const stepTween = () => {
+    if (!tween) return;
+    const k = Math.min(1, (performance.now() - tween.t0) / tween.ms), e = tween.curve(k);
+    controls.target.lerpVectors(tween.fromTarget, tween.to.target, e);
+    const { a, b } = tween;
+    camera.position.setFromSpherical(new THREE.Spherical(a.radius + (b.radius - a.radius) * e, a.phi + (b.phi - a.phi) * e, a.theta + tween.dTheta * e)).add(controls.target);
+    if (k >= 1) { const n = tween.next; tween = null; n?.(); }
+  };
 
   // + and - buttons: glide the camera toward or away from the target, within the allowed distance range
   let zoomGoal = null;
@@ -153,6 +225,7 @@ export function createViewer(host, spec) {
       if (o.userData.keepGlow) return;
       o.material.emissive.set(k === i ? accent : 0x000000); o.material.emissiveIntensity = k === i ? 0.55 : 0;
     })));
+    built.parts.forEach((p, k) => { if (p.onHover) p.onHover(k === i); });
     [...list.children].forEach((li, k) => li.classList.toggle("on", k === i));
     pin.hidden = i < 0; if (i >= 0) pin.textContent = built.parts[i].label;
     stage.style.cursor = i >= 0 && built.parts[i].onClick ? "pointer" : (i >= 0 ? "default" : "grab");
@@ -194,7 +267,7 @@ export function createViewer(host, spec) {
   const frame = () => {
     raf = requestAnimationFrame(frame);
     const dt = Math.min(clock.getDelta(), 0.05);
-    built.update?.(dt, clock.elapsedTime); stepZoom();
+    built.update?.(dt, clock.elapsedTime); stepTween(); stepZoom(); stepPinch(dt);
     controls.update(); placePin(); renderer.render(scene, camera);
   };
   new IntersectionObserver((es) => es.forEach((e) => {

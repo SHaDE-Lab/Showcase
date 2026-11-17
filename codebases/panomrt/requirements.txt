@@ -1,0 +1,6 @@
+# Tested with Python 3.10 on Windows 11 (numpy 1.24, pandas 2.0, scipy 1.10, opencv 4.9).
+numpy>=1.19
+scipy>=1.5
+pandas>=1.1
+opencv-python>=4.5
+pytest>=7

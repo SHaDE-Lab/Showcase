@@ -1,0 +1,38 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite the PanoMRT paper."
+title: "PanoMRT: panoramic mean radiant temperature from thermal 360-degree imagery"
+type: software
+# TODO: confirm the author list for the software release.
+authors:
+  - family-names: Huff
+    given-names: Matthew
+  - family-names: Middel
+    given-names: Ariane
+  - family-names: Krayenhoff
+    given-names: E. Scott
+  - family-names: Schneider
+    given-names: Florian A.
+  - family-names: Udupa
+    given-names: Ananth
+repository-code: "https://github.com/SHaDE-Lab/Showcase/tree/main/codebases/panomrt"
+license: Apache-2.0
+preferred-citation:
+  type: article
+  title: "PanoMRT: Panoramic infrared thermography to model human thermal exposure and comfort"
+  authors:
+    - family-names: Middel
+      given-names: Ariane
+    - family-names: Huff
+      given-names: Matthew
+    - family-names: Krayenhoff
+      given-names: E. Scott
+    - family-names: Schneider
+      given-names: Florian A.
+    - family-names: Udupa
+      given-names: Ananth
+  journal: "Science of The Total Environment"
+  volume: 859
+  pages: 160301
+  year: 2023
+  month: 2
+  doi: "10.1016/j.scitotenv.2022.160301"

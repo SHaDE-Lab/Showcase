@@ -1,0 +1,26 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "PanoMRT"
+version = "0.1.0"
+description = "Panoramic Mean Radiant Temperature (MRT), UTCI and PET from thermal 360-degree panoramas and weather data"
+readme = "README.md"
+requires-python = ">=3.8"
+license = { text = "Apache-2.0" }
+dependencies = [
+    "opencv-python>=4.5.0",
+    "numpy>=1.19.0",
+    "pandas>=1.1.0",
+    "scipy>=1.5.0",
+]
+
+[project.optional-dependencies]
+test = ["pytest>=7"]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[project.scripts]
+panomrt = "panomrt.__main__:main"

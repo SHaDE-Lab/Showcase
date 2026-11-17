@@ -11,6 +11,8 @@ Third-party material (not covered by the Apache-2.0 grant for SHaDE Lab code):
   * Cool Routes sample data: the walking network is derived from OpenStreetMap,
     (c) OpenStreetMap contributors, Open Database License (ODbL) 1.0.
   * VisionMRT sample weather: Open-Meteo, CC BY 4.0 (https://open-meteo.com).
+  * PanoMRT: the PET routine in codebases/panomrt (Walther & Goestchel, after Hoeppe's VDI 3787 code and Spasic's port)
+    has licence terms that have not been verified; see codebases/panomrt/NOTICE.
   * UMEP / SOLWEIG (GPL-3.0) is NOT included in this repository. It is referenced
     in the Cool Routes README only.
   * Python and JavaScript dependencies keep their own licenses.

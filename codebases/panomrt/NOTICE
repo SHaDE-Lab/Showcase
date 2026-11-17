@@ -1,0 +1,17 @@
+PanoMRT
+Copyright 2026 The SHaDE Lab, Arizona State University
+
+This product includes software developed at the SHaDE Lab, Arizona State University.
+
+Third-party material (not covered by the Apache-2.0 grant for SHaDE Lab code):
+
+  * src/panomrt/utils/calculate/PET_fsolve_code.py is a Physiological Equivalent Temperature routine by
+    Edouard Walther and Quentin Goestchel (2017/2018), based on Peter Hoeppe's FORTRAN code from VDI 3787 Part 2
+    and on Djordje Spasic's Python port. Its original licence terms have not been checked against Apache-2.0.
+    TODO (PI): confirm the licence of that routine before this folder is made public.
+  * src/panomrt/utils/calculate/UTCI.py is the published 6th-order polynomial approximation of the Universal Thermal
+    Climate Index (Broede et al., 2012; www.utci.org).
+  * SunTrajectory.py implements the Blanco-Muriel et al. (2001) solar position algorithm.
+  * Python dependencies (numpy, scipy, pandas, opencv-python) keep their own licences.
+
+No imagery, measurements or model weights are included.

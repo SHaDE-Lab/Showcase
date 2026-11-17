@@ -30,6 +30,12 @@ window.PORTAL = {
       codeStatus: "Open-source example code (Apache-2.0)",
       folder: "codebases/webmrt/",
     },
+    panomrt: {         // a method and open-source model with no web tool
+      paper: "https://doi.org/10.1016/j.scitotenv.2022.160301",   // Science of The Total Environment 859:160301 (2023)
+      code: "https://github.com/SHaDE-Lab/Showcase/tree/main/codebases/panomrt",
+      codeStatus: "Open-source example code (Apache-2.0)",
+      folder: "codebases/panomrt/",
+    },
     visionmrt: {
       embed: false,      // true = show the live tool in an iframe; false = launch card
       tool: "https://shadelab.asu.edu/VisionMRT",
@@ -102,6 +108,14 @@ window.PORTAL = {
     $$(".nav .dd").forEach((dd) => dd.classList.toggle("has-active", !!dd.querySelector(".dd-m a.active")));   // parent lights up for its children
   }), { rootMargin: "-45% 0px -50% 0px" });
   $$("main section[id]").forEach((s) => spy.observe(s));
+
+  /* ---------- bibtex panels: closed until asked, then they slide open ---------- */
+  $$(".bib-toggle").forEach((btn) => btn.addEventListener("click", () => {
+    const panel = document.getElementById(btn.getAttribute("aria-controls")), open = !panel.classList.contains("open");
+    panel.classList.toggle("open", open);
+    panel.inert = !open;                                   // a closed panel cannot be tabbed into
+    btn.setAttribute("aria-expanded", String(open));
+  }));
 
   /* ---------- bibtex copy ---------- */
   $$("[data-copy]").forEach((b) => b.addEventListener("click", async () => {

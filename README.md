@@ -17,6 +17,7 @@ heat stress more than air temperature does. The three projects below estimate it
 | **Cool Routes** | Walking routes on the ASU campus that trade a little distance for much less radiant heat, from hourly SOLWEIG MRT forecasts | [coolroutes.sensableheatscapes.com](https://coolroutes.sensableheatscapes.com/) | Buo *et al.*, *Building and Environment* (in press), [doi:10.1016/j.buildenv.2026.114622](https://doi.org/10.1016/j.buildenv.2026.114622) | [`codebases/cool-routes`](codebases/cool-routes) |
 | **VisionMRT** | Physics-based MRT, UTCI and PET from a 360° image: segmentation, depth, shadow casting, surface energy balance | [shadelab.asu.edu/VisionMRT](https://shadelab.asu.edu/VisionMRT) | Middel *et al.*, *Sustainable Cities and Society* 151:108016 (2026), [doi:10.1016/j.scs.2026.108016](https://doi.org/10.1016/j.scs.2026.108016) | [`codebases/visionmrt`](codebases/visionmrt) |
 | **WebMRT** | Machine-learning prediction of summertime MRT from meteorology and the surroundings (LightGBM, trained on MaRTy field data) | [shadelab.asu.edu/WebMRT](https://shadelab.asu.edu/WebMRT) | AlKhaled *et al.*, *Sustainable Cities and Society* 115:105861 (2024), [doi:10.1016/j.scs.2024.105861](https://doi.org/10.1016/j.scs.2024.105861) | [`codebases/webmrt`](codebases/webmrt) |
+| **PanoMRT** | MRT, UTCI and PET from a thermal 360° panorama and weather data: surface temperatures measured per pixel, six-direction radiation budget (no web tool) | none | Middel *et al.*, *Science of The Total Environment* 859:160301 (2023), [doi:10.1016/j.scitotenv.2022.160301](https://doi.org/10.1016/j.scitotenv.2022.160301) | [`codebases/panomrt`](codebases/panomrt) |
 
 The website also lists the related image-based modeling paper, Shaeri, AlKhaled & Middel (2025), *A Multimodal Physics-Informed Neural
 Network Approach for Mean Radiant Temperature Modeling*, ICCV Workshops, [IEEE Xplore](https://ieeexplore.ieee.org/document/11375311).
@@ -44,7 +45,7 @@ demos/                interactive demos that run in the browser
   webmrt/               the exported LightGBM sample model running in the browser
   _3d/ marty/ martiny/  the shared three.js viewer and the MaRTy and MaRTiny 3D models
 codebases/            curated, tested example code for each project (each folder has its own README)
-  cool-routes/  visionmrt/  webmrt/  MaRTy/  MaRTiny/   (MaRTy: logger program and field guide; MaRTiny: Arduino and ESP32-CAM firmware, image server, MongoDB tools and model notes)
+  cool-routes/  visionmrt/  webmrt/  panomrt/  MaRTy/  MaRTiny/   (MaRTy: logger program and field guide; MaRTiny: Arduino and ESP32-CAM firmware, image server, MongoDB tools and model notes)
 patches/              proposed change to the Cool Routes frontend (URL parameters for start and destination)
 LICENSE  NOTICE       Apache-2.0 and third-party notices
 ```
@@ -77,6 +78,7 @@ Each codebase is self-contained (Python 3.10+).
 cd codebases/cool-routes && pip install -r requirements.txt && python -m pytest     # 21 tests, about 15 s
 cd codebases/webmrt      && pip install -r requirements.txt && python -m pytest     # 17 tests, about 5 s
 cd codebases/visionmrt   && pip install -r requirements.txt && python -m pytest     # 41 tests, about 4 min
+cd codebases/panomrt     && pip install -r requirements.txt && python -m pytest     # 51 tests, about 3 min (-m "not slow": 15 s)
 ```
 
 The in-browser demos are checked against the Python results (needs Node 18+):
