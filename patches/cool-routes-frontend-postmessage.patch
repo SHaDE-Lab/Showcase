@@ -1,0 +1,45 @@
+diff --git a/src/components/Map/WebMapComponent.tsx b/src/components/Map/WebMapComponent.tsx
+index 2abee10..f9360e8 100644
+--- a/src/components/Map/WebMapComponent.tsx
++++ b/src/components/Map/WebMapComponent.tsx
+@@ -85,6 +85,14 @@ export default function WebMapComponent() {
+     if (!view.map.findLayerById('buildings')) view.map.add(buildingsLayer)
+   }
+ 
++  // Tell an embedding page (the SHaDE Lab showcase) what the visitor just did, so its guided tour can move on by itself.
++  // Nothing is sent when the app is not inside a frame.
++  const notifyParent = (event: 'building-selected' | 'map-dragged', which?: 'start' | 'end') => {
++    if (window.parent !== window) {
++      window.parent.postMessage({ source: 'cool-routes', event, which }, '*')
++    }
++  }
++
+   const addStartSearch = () => {
+     /* BUILDING SEARCH */
+     const startSearchWidgetSource = new LayerSearchSource({
+@@ -122,6 +130,7 @@ export default function WebMapComponent() {
+     searchWidgetStart.on('select-result', (event) => {
+       const { longitude } = event.result.extent.center
+       const { latitude } = event.result.extent.center
++      notifyParent('building-selected', 'start')
+ 
+       setStartPoint(new Point().set({ longitude, latitude }))
+     })
+@@ -166,6 +175,7 @@ export default function WebMapComponent() {
+       const { longitude } = event.result.extent.center
+       const { latitude } = event.result.extent.center
+       const endPoint = new Point().set({ longitude, latitude })
++      notifyParent('building-selected', 'end')
+       setEndPoint(endPoint)
+     })
+ 
+@@ -175,6 +185,9 @@ export default function WebMapComponent() {
+   const addSearchWidgets = () => {
+     addStartSearch()
+     addEndSearch()
++    view.on('drag', (event) => {
++      if (event.action === 'end') notifyParent('map-dragged')
++    })
+   }
+ 
+   const addTimeSlider = () => {

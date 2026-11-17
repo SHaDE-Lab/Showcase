@@ -13,7 +13,7 @@ window.PORTAL = {
       embed: true,      // true = show the live tool in an iframe; false = launch card
       // pre-selects Coor Hall -> Creativity Commons (building codes). Needs patches/cool-routes-frontend-url-params.patch deployed; ignored otherwise.
       embedQuery: "?start=COOR&end=CRTVC",
-      poster: "assets/img/coolroutes-preview.webp",   // cover shown over the live tool until the visitor clicks
+      poster: "",   // a screenshot cover shown over the live tool until the visitor clicks; "" loads the live tool directly (cover image: assets/img/coolroutes-preview.webp)
       tool: "https://coolroutes.sensableheatscapes.com/",
       paper: "https://doi.org/10.1016/j.buildenv.2026.114622",
       code: "https://github.com/SHaDE-Lab/Showcase/tree/main/codebases/cool-routes",
@@ -183,6 +183,88 @@ window.PORTAL = {
       const stage = host.querySelector(".live-stage"), f = stage.querySelector("iframe");
       // the live app loads underneath the cover as soon as the section is near the screen
       new IntersectionObserver((es, o) => es.forEach((e) => { if (e.isIntersecting) { f.src = f.dataset.src; o.disconnect(); } }), { rootMargin: "400px" }).observe(stage);
+
+      if (!p.poster && p.tour !== false) {
+        // A guided tour over the app, in three steps: source, destination, then how to drag the map to the route.
+        // The app is on another domain, so the tour cannot see what the visitor types; each step waits for them and moves on only
+        // when they press its button, or, once the app tells the page about it (patches/cool-routes-frontend-postmessage.patch),
+        // as soon as a building is chosen with Enter or from the list and the map has been dragged. A click anywhere else, or Skip, ends it.
+        const STEPS = [
+          { spot: "src", n: "1", t: "Source", d: "Type a building and press Enter, or pick it from the list, for example", ex: "Coor Hall", text: "COOR HALL", btn: "Next" },
+          { spot: "dst", n: "2", t: "Destination", d: "Do the same for where you are walking to, for example", ex: "Creativity Commons", text: "CREATIVITY COMMONS", btn: "Next" },
+          { spot: "", n: "3", t: "Drag the map", d: "Drag it to the right and a little up. That moves the view west, to the route.", ex: "", text: "", btn: "Got it" },
+        ];
+        const tour = document.createElement("div");
+        tour.className = "tour"; tour.hidden = true;
+        tour.innerHTML = `<i class="tour-dim t"></i><i class="tour-dim l"></i><i class="tour-dim r"></i><i class="tour-dim b"></i>
+          <div class="tour-spot"><span class="tour-typed"></span><i class="tour-caret"></i></div>
+          <i class="tour-hand" aria-hidden="true">
+            <svg class="o" viewBox="0 0 32 32"><g fill="#fff" stroke="#1b1f2a" stroke-width="1.3" stroke-linejoin="round"><rect x="6" y="14" width="20" height="14" rx="6"/><rect x="7" y="4" width="4" height="15" rx="2"/><rect x="12" y="2" width="4" height="17" rx="2"/><rect x="17" y="3" width="4" height="16" rx="2"/><rect x="22" y="6" width="4" height="14" rx="2"/><rect x="1.5" y="16" width="4" height="11" rx="2" transform="rotate(-28 3.5 21)"/></g><rect x="7.2" y="15" width="17.6" height="5" fill="#fff"/></svg>
+            <svg class="c" viewBox="0 0 32 32"><g fill="#fff" stroke="#1b1f2a" stroke-width="1.3" stroke-linejoin="round"><rect x="6" y="12" width="20" height="16" rx="7"/><rect x="7" y="9" width="4.6" height="8" rx="2.3"/><rect x="12.2" y="8" width="4.6" height="9" rx="2.3"/><rect x="17.4" y="8.4" width="4.6" height="9" rx="2.3"/><rect x="22.2" y="10" width="4.2" height="8" rx="2.1"/><rect x="5" y="17.5" width="10" height="4.4" rx="2.2"/></g></svg>
+          </i>
+          <div class="tour-tip"><em></em><div><b></b><span></span><button type="button" class="tour-next"></button></div></div>
+          <button type="button" class="tour-skip">Skip</button>`;
+        stage.append(tour);
+        const replay = document.createElement("button");
+        replay.type = "button"; replay.className = "tour-replay"; replay.hidden = true; replay.textContent = "▶ Show me how";
+        stage.append(replay);
+        const q = (c) => tour.querySelector(c), typed = q(".tour-typed"), next = q(".tour-next");
+        let timers = [], running = false, step = 0;
+        const later = (fn, ms) => timers.push(setTimeout(fn, ms));
+        const clear = () => { timers.forEach(clearTimeout); timers = []; };
+        const place = () => {      // measured on the live app: boxes 240 x 32 px, 15 px from the right; the first sits 15 px under the app bar, the second 42 px lower
+          const w = stage.clientWidth, bar = w >= 900 ? 69 : w >= 600 ? 64 : 56;
+          tour.style.setProperty("--src", bar + 15 + "px"); tour.style.setProperty("--dst", bar + 57 + "px");
+        };
+        addEventListener("resize", place); place();
+        function onBlur() {
+          setTimeout(() => {                                       // the visitor clicked into the highlighted box: the example gives way to the real field
+            if (running && STEPS[step].spot && document.activeElement === f) { clear(); tour.classList.add("engaged"); }
+          }, 0);
+        }
+        const origin = new URL(p.tool).origin;
+        function onMessage(e) {                                    // messages from the Cool Routes app, if it has the patch
+          const m = e.data;
+          if (!running || e.origin !== origin || !m || m.source !== "cool-routes") return;
+          const st = STEPS[step];
+          if (m.event === "building-selected" && ((st.spot === "src" && m.which === "start") || (st.spot === "dst" && m.which === "end"))) {
+            clear(); later(() => show(step + 1), 700);
+          } else if (m.event === "map-dragged" && !st.spot) { clear(); later(stop, 1600); }
+        }
+        const stop = () => {
+          clear(); running = false; tour.classList.add("gone"); delete stage.dataset.tour;
+          removeEventListener("blur", onBlur); removeEventListener("message", onMessage); replay.hidden = false;
+          setTimeout(() => { if (!running) tour.hidden = true; }, 450);
+        };
+        const demo = (text) => {                                   // types the example, pauses, clears, repeats, until the visitor clicks the box
+          let k = 0; typed.textContent = "";
+          const tick = () => {
+            if (k < text.length) { typed.textContent = text.slice(0, ++k); later(tick, reduce ? 0 : 85); }
+            else if (!reduce) later(() => { k = 0; typed.textContent = ""; later(tick, 700); }, 1700);
+          };
+          later(tick, reduce ? 0 : 500);
+        };
+        const show = (i) => {
+          const st = STEPS[i]; step = i; clear();
+          place(); tour.dataset.step = i; tour.dataset.spot = st.spot; tour.classList.remove("engaged");
+          q(".tour-tip em").textContent = st.n; q(".tour-tip b").textContent = st.t;
+          q(".tour-tip span").innerHTML = st.d + (st.ex ? ` <strong>${st.ex}</strong>.` : "");
+          next.textContent = st.btn;
+          f.blur(); focus();                                      // pressing the button already takes focus off the app; this makes a click into it noticeable
+          if (st.text) demo(st.text);
+          else later(stop, 5000);                                 // the drag hint plays for a few seconds, then goes away
+        };
+        const start = () => {
+          if (running) return;
+          running = true; tour.hidden = false; tour.classList.remove("gone"); stage.dataset.tour = "on"; replay.hidden = true;
+          addEventListener("blur", onBlur); addEventListener("message", onMessage); show(0);
+        };
+        next.addEventListener("click", () => (step + 1 < STEPS.length ? show(step + 1) : stop()));
+        tour.querySelectorAll(".tour-dim").forEach((d) => d.addEventListener("pointerdown", stop));     // a click anywhere else ends the tour
+        q(".tour-skip").addEventListener("click", stop);
+        replay.addEventListener("click", start);
+        new IntersectionObserver((es, o) => es.forEach((e) => { if (e.isIntersecting) { o.disconnect(); later(start, 900); } }), { threshold: 0.6 }).observe(stage);
+      }
 
       const poster = stage.querySelector(".poster");
       if (poster) {
