@@ -42,6 +42,7 @@ export function createViewer(host, spec) {
       <canvas class="v3d-canvas" aria-label="${spec.label || "3D model"}"></canvas>
       <div class="v3d-pin" hidden></div>
       <div class="v3d-bar"><button type="button" data-act="reset">Reset view</button><button type="button" data-act="spin" aria-pressed="true">Auto-rotate</button><span class="v3d-extra"></span></div>
+      <div class="v3d-zoom"><button type="button" data-zoom="in" aria-label="Zoom in" title="Zoom in">+</button><button type="button" data-zoom="out" aria-label="Zoom out" title="Zoom out">−</button></div>
       <div class="v3d-hint">Drag to rotate · scroll or pinch to zoom</div>
     </div>
     <div class="v3d-side"><ol class="v3d-parts"></ol></div>
@@ -94,28 +95,46 @@ export function createViewer(host, spec) {
   const cam = spec.camera;
   const camera = new THREE.PerspectiveCamera(cam.fov ?? 32, 1, 0.05, 40);
   const controls = new OrbitControls(camera, canvas);
-  controls.enableDamping = true; controls.dampingFactor = 0.08; controls.autoRotate = true; controls.autoRotateSpeed = 1.1;
+  controls.enableDamping = true; controls.dampingFactor = 0.08; controls.autoRotate = true; controls.autoRotateSpeed = 1.7;
   controls.minDistance = cam.min ?? 0.6; controls.maxDistance = cam.max ?? 6; controls.maxPolarAngle = Math.PI / 2 - 0.03; controls.enablePan = false;
   const home = () => { camera.position.set(...cam.pos); controls.target.set(...cam.target); controls.update(); };
   home();
   const spinBtn = q('[data-act="spin"]');
+  let manualOff = false, resumeTimer = 0;                                            // manualOff: the visitor pressed the button to stop it
   const setSpin = (on) => { controls.autoRotate = on; spinBtn.setAttribute("aria-pressed", String(on)); };
-  controls.addEventListener("start", () => setSpin(false));
-  q('[data-act="reset"]').addEventListener("click", () => { home(); setSpin(true); });
-  spinBtn.addEventListener("click", () => setSpin(!controls.autoRotate));
+  controls.addEventListener("start", () => { clearTimeout(resumeTimer); setSpin(false); });                       // pause while dragging
+  controls.addEventListener("end", () => { clearTimeout(resumeTimer); if (!manualOff) resumeTimer = setTimeout(() => setSpin(true), 3500); });   // and pick up again shortly after
+  q('[data-act="reset"]').addEventListener("click", () => { home(); manualOff = false; setSpin(true); });
+  spinBtn.addEventListener("click", () => { clearTimeout(resumeTimer); manualOff = controls.autoRotate; setSpin(!controls.autoRotate); });
+
+  // + and - buttons: glide the camera toward or away from the target, within the allowed distance range
+  let zoomGoal = null;
+  const zoomBy = (f) => {
+    const d = camera.position.distanceTo(controls.target);
+    zoomGoal = Math.min(controls.maxDistance, Math.max(controls.minDistance, d * f));
+  };
+  host.querySelectorAll("[data-zoom]").forEach((b) => b.addEventListener("click", () => zoomBy(b.dataset.zoom === "in" ? 0.78 : 1.28)));
+  controls.addEventListener("start", () => { zoomGoal = null; });
+  const stepZoom = () => {
+    if (zoomGoal === null) return;
+    const off = camera.position.clone().sub(controls.target), d = off.length(), nd = d + (zoomGoal - d) * 0.22;
+    camera.position.copy(controls.target).addScaledVector(off.normalize(), Math.abs(zoomGoal - nd) < 0.002 ? zoomGoal : nd);
+    if (Math.abs(zoomGoal - nd) < 0.002) zoomGoal = null;
+  };
 
   // optional extra toggles (e.g. "Open the case")
   (built.extras || []).forEach((x) => {
-    const b = document.createElement("button"); b.type = "button"; b.textContent = x.label; b.setAttribute("aria-pressed", String(!!x.on));
-    b.addEventListener("click", () => { x.on = !x.on; b.setAttribute("aria-pressed", String(x.on)); x.toggle(x.on); if (x.on && x.focus) { setSpin(false); } });
-    q(".v3d-extra").appendChild(b);
+    const b = document.createElement("button"); b.type = "button";
+    x.refresh = () => { b.setAttribute("aria-pressed", String(!!x.on)); b.textContent = x.on ? (x.labelOn || x.label) : x.label; };
+    b.addEventListener("click", () => { x.on = !x.on; x.refresh(); x.toggle(x.on); });
+    x.refresh(); x.button = b; q(".v3d-extra").appendChild(b);
   });
 
   // parts list, hover highlight and label
   const meshToPart = new Map(), partMeshes = [];
   built.parts.forEach((p, i) => {
-    own(p.object);
-    p.object.traverse((o) => { if (o.isMesh) { meshToPart.set(o, i); partMeshes.push(o); } });
+    p.objects = p.objects || [p.object];
+    p.objects.forEach((ob) => { own(ob); ob.traverse((o) => { if (o.isMesh) { meshToPart.set(o, i); partMeshes.push(o); } }); });
     const li = document.createElement("li");
     li.innerHTML = `<button type="button"><span class="n">${i + 1}</span><span><b>${p.label}</b><small>${p.detail}</small></span></button>`;
     li.querySelector("button").addEventListener("pointerenter", () => hover(i));
@@ -129,17 +148,18 @@ export function createViewer(host, spec) {
   function hover(i) {
     if (i === cur) return;
     cur = i;
-    built.parts.forEach((p, k) => p.object.traverse((o) => {
-      if (!o.isMesh) return;
+    built.parts.forEach((p, k) => p.objects.forEach((ob) => ob.traverse((o) => {
+      if (!o.isMesh || !o.material.emissive) return;
+      if (o.userData.keepGlow) return;
       o.material.emissive.set(k === i ? accent : 0x000000); o.material.emissiveIntensity = k === i ? 0.55 : 0;
-    }));
+    })));
     [...list.children].forEach((li, k) => li.classList.toggle("on", k === i));
     pin.hidden = i < 0; if (i >= 0) pin.textContent = built.parts[i].label;
-    stage.style.cursor = i >= 0 ? "pointer" : "grab";
+    stage.style.cursor = i >= 0 && built.parts[i].onClick ? "pointer" : (i >= 0 ? "default" : "grab");
   }
   function placePin() {
     if (cur < 0) return;
-    box3.setFromObject(built.parts[cur].object).getCenter(v).project(camera);
+    box3.makeEmpty(); built.parts[cur].objects.forEach((ob) => box3.expandByObject(ob)); box3.getCenter(v).project(camera);
     const w = stage.clientWidth, h = stage.clientHeight;
     pin.style.transform = `translate(${(v.x * 0.5 + 0.5) * w}px, ${(-v.y * 0.5 + 0.5) * h}px) translate(-50%, -135%)`;
   }
@@ -152,6 +172,17 @@ export function createViewer(host, spec) {
     hover(hit ? meshToPart.get(hit.object) : -1);
   });
   canvas.addEventListener("pointerleave", () => hover(-1));
+  let down = null;
+  canvas.addEventListener("pointerdown", (e) => { down = [e.clientX, e.clientY]; });
+  canvas.addEventListener("pointerup", (e) => {
+    if (!down || Math.hypot(e.clientX - down[0], e.clientY - down[1]) > 5) { down = null; return; }   // it was a drag, not a click
+    down = null;
+    const r = canvas.getBoundingClientRect(); ndc.set(((e.clientX - r.left) / r.width) * 2 - 1, -((e.clientY - r.top) / r.height) * 2 + 1);
+    ray.setFromCamera(ndc, camera);
+    const hit = ray.intersectObjects(partMeshes, false)[0];
+    const part = hit && built.parts[meshToPart.get(hit.object)];
+    if (part && part.onClick) part.onClick();
+  });
 
   // sizing and the render loop (runs only while the viewer is on screen)
   const resize = () => {
@@ -163,7 +194,7 @@ export function createViewer(host, spec) {
   const frame = () => {
     raf = requestAnimationFrame(frame);
     const dt = Math.min(clock.getDelta(), 0.05);
-    built.update?.(dt, clock.elapsedTime);
+    built.update?.(dt, clock.elapsedTime); stepZoom();
     controls.update(); placePin(); renderer.render(scene, camera);
   };
   new IntersectionObserver((es) => es.forEach((e) => {

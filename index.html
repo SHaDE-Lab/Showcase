@@ -292,10 +292,10 @@
         <h2>MaRTiny</h2>
         <p class="muted" style="margin-top:14px;font-size:1.05rem">MaRTy’s tiny sibling: a low-cost IoT biometeorological device that estimates mean radiant temperature from a globe thermometer, and uses embedded computer vision to count how many people stand in sun and in shade.</p>
         <ul class="feat">
-          <li><span><b>Globe and weather sensing.</b> A grey globe on a DS18B20 probe, an air probe under a white radiation cup, a DHT22 humidity sensor, a UV sensor and a cup anemometer, read by an Arduino Uno and sent on by a NodeMCU with Wi-Fi.</span></li>
-          <li><span><b>Computer vision at the edge.</b> An NVIDIA Jetson Nano and a camera run YOLOv3 pedestrian detection and a shadow-detection network every 15 minutes. Only counts are stored; the images are discarded after analysis.</span></li>
-          <li><span><b>Small and affordable.</b> About $200 in parts on a single 20 W supply. A machine-learning correction brings globe-based MRT to an RMSE of about 4 °C against the six-directional reference, as a proof of concept.</span></li>
-          <li><span><b>In the parks.</b> Deployed in City of Tempe parks from 2021 to 2023 to study how the use of public space changes with heat.</span></li>
+          <li><span><b>Globe and weather sensing.</b> A grey globe on a DS18B20 probe, an air probe under a white radiation cup, a DHT22 humidity sensor, a UV sensor and a cup anemometer, all read by an Arduino Uno.</span></li>
+          <li><span><b>Computer vision.</b> An ESP32-CAM captures images of the space; a server runs YOLO pedestrian detection and shadow segmentation on them to count how many people stand in sun and in shade.</span></li>
+          <li><span><b>Solar powered.</b> A south-facing solar panel feeds a battery in a second box on the lamp post, which also holds a Wi-Fi dongle and powers the sensor box. A machine-learning correction brings globe-based MRT to an RMSE of about 4 °C against the six-directional reference, as a proof of concept (2022 paper).</span></li>
+          <li><span><b>In the parks.</b> Mounted on a lamp post, with the sensor box on one side and a south-facing solar panel, carrying the globe thermometer and UV sensor, on the other. Deployed in City of Tempe parks from 2021 to 2023 to study how the use of public space changes with heat.</span></li>
         </ul>
         <div class="links">
           <a class="btn primary" data-link="martiny.paper">Paper ↗</a>
@@ -306,7 +306,6 @@
 
     <div class="stage reveal">
       <div class="demo-host" data-demo="martiny"><p class="demo-status">Loading the 3D model…</p></div>
-      <p class="note">Illustrative 3D model built from photographs of MaRTiny and the parts list in the paper. Proportions are approximate, and the mounting is simplified.</p>
     </div>
   </div>
 </section>

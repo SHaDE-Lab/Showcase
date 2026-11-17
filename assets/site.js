@@ -8,7 +8,7 @@ window.PORTAL = {
   contact: "https://shadelab.asu.edu/contact/",
   projects: {
     marty: { paper: "https://doi.org/10.1016/j.scitotenv.2019.06.085", code: "https://github.com/SHaDE-Lab/Showcase/tree/main/codebases/MaRTy" },                                  // Middel & Krayenhoff 2019
-    martiny: { paper: "https://doi.org/10.3389/fenvs.2022.866240", code: "https://github.com/SHaDE-Lab/MaRTiny" },  // Kulkarni et al. 2022
+    martiny: { paper: "https://doi.org/10.3389/fenvs.2022.866240", code: "https://github.com/SHaDE-Lab/Showcase/tree/main/codebases/MaRTiny" },  // Kulkarni et al. 2022
     coolroutes: {
       embed: true,      // true = show the live tool in an iframe; false = launch card
       // pre-selects Coor Hall -> Creativity Commons (building codes). Needs patches/cool-routes-frontend-url-params.patch deployed; ignored otherwise.

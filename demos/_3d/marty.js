@@ -20,8 +20,8 @@ export function buildMarty() {
   const rr = (c, x, y, w, h, r) => { c.beginPath(); c.moveTo(x + r, y); c.arcTo(x + w, y, x + w, y + h, r); c.arcTo(x + w, y + h, x, y + h, r); c.arcTo(x, y + h, x, y, r); c.arcTo(x, y, x + w, y, r); c.closePath(); };
 
   /* ---------- plates and logos (canvas textures) ---------- */
-  const flagTex = textTexture(512, 300, (c, w, h) => {                           // "MaRTy" plate in the Arizona flag design
-    rr(c, 0, 0, w, h, 30); c.clip();
+  const flagTex = textTexture(1536, 900, (c, w, h) => {                          // "MaRTy" plate in the Arizona flag design
+    rr(c, 0, 0, w, h, 90); c.clip();
     const cx = w / 2, cy = h * 0.5;
     const g = c.createLinearGradient(0, cy, 0, h); g.addColorStop(0, "#2d62a8"); g.addColorStop(1, "#1d4784"); c.fillStyle = g; c.fillRect(0, cy, w, h - cy);
     const n = 13;
@@ -29,12 +29,15 @@ export function buildMarty() {
       c.beginPath(); c.moveTo(cx, cy); c.arc(cx, cy, w, Math.PI + (i * Math.PI) / n, Math.PI + ((i + 1) * Math.PI) / n); c.closePath();
       c.fillStyle = i % 2 ? "#b02a30" : "#f1c22b"; c.fill();
     }
-    c.fillStyle = "#b02a30"; c.fillRect(0, cy - 2, w, h * 0.08);
-    const star = (R, r, col, stroke) => { c.beginPath(); for (let i = 0; i < 10; i++) { const a = -Math.PI / 2 + (i * Math.PI) / 5, rad = i % 2 ? r : R; c.lineTo(cx + Math.cos(a) * rad, cy + Math.sin(a) * rad); } c.closePath(); c.fillStyle = col; c.fill(); if (stroke) { c.strokeStyle = stroke; c.lineWidth = 3; c.stroke(); } };
+    c.fillStyle = "#b02a30"; c.fillRect(0, cy - 6, w, h * 0.08);
+    const star = (R, r, col, stroke) => { c.beginPath(); for (let i = 0; i < 10; i++) { const a = -Math.PI / 2 + (i * Math.PI) / 5, rad = i % 2 ? r : R; c.lineTo(cx + Math.cos(a) * rad, cy + Math.sin(a) * rad); } c.closePath(); c.fillStyle = col; c.fill(); if (stroke) { c.strokeStyle = stroke; c.lineWidth = 9; c.stroke(); } };
     star(h * 0.215, h * 0.09, "#dba432", "#8a6120");
-    c.fillStyle = "#1b2a47"; c.font = `800 ${h * 0.2}px Inter, Arial, sans-serif`; c.textAlign = "center"; c.textBaseline = "middle"; c.fillText("MaRTy 2", cx, cy + h * 0.06);
-    c.fillStyle = "#d63a2f"; c.font = `600 ${h * 0.066}px Inter, Arial, sans-serif`; c.fillText("@ASUMaRTy", cx, h * 0.9);
-    c.fillStyle = "#cfd3da"; [[0.07, 0.92], [0.93, 0.92]].forEach(([x, y]) => { c.beginPath(); c.arc(w * x, h * y, 9, 0, 7); c.fill(); });
+    c.textAlign = "center"; c.textBaseline = "middle";
+    c.font = `800 ${h * 0.24}px Inter, Arial, sans-serif`;
+    c.lineWidth = h * 0.02; c.strokeStyle = "rgba(255,255,255,.85)"; c.strokeText("MaRTy 2", cx, cy + h * 0.07);             // light outline keeps the name readable over the rays
+    c.fillStyle = "#13203a"; c.fillText("MaRTy 2", cx, cy + h * 0.07);
+    c.fillStyle = "#ff6a4a"; c.font = `700 ${h * 0.082}px Inter, Arial, sans-serif`; c.fillText("@ASUMaRTy", cx, h * 0.9);
+    c.fillStyle = "#cfd3da"; [[0.07, 0.92], [0.93, 0.92]].forEach(([x, y]) => { c.beginPath(); c.arc(w * x, h * y, h * 0.03, 0, 7); c.fill(); });
   });
   const shadeTex = textTexture(512, 290, (c, w, h) => {                          // Arizona "SHaDE Lab" plate
     rr(c, 0, 0, w, h, 28); c.clip();
