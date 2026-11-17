@@ -1,0 +1,19 @@
+# Template. Copy this file to "bdrar_local.py" (it is ignored by git), put your copy of the BDRAR network code in
+# models/bdrar_src/ and the weights in models/BDRAR/, then set   MARTINY_SHADOW_NETWORK=bdrar_local:build
+# See README.md in this folder.
+import sys
+from pathlib import Path
+
+import torch
+
+HERE = Path(__file__).resolve().parent
+sys.path.insert(0, str(HERE / "bdrar_src"))      # the folder that holds BDRAR's model.py and its resnext/ package
+
+
+def build():
+    from model import BDRAR                       # in the lab's copy, change "from src.service.ShadowDetection.BDRAR.resnext import ResNeXt101"
+                                                  # at the top of model.py to "from resnext import ResNeXt101"
+    net = BDRAR()                                 # the lab's ResNeXt101 loads resnext/resnext_101_32x4d.pth when it is built
+    net.load_state_dict(torch.load(HERE / "BDRAR" / "ckpt" / "3000.pth", map_location="cpu"))
+    net.eval()
+    return net                                    # or:  return net, refine_function   to add a CRF clean-up step

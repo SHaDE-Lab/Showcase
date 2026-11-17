@@ -1,0 +1,8 @@
+# model weights and third-party network code are never committed here (see README.md)
+*.pt
+*.pth
+*.onnx
+*.weights
+BDRAR/
+bdrar_src/
+bdrar_local.py

@@ -1,0 +1,13 @@
+# your own Wi-Fi password and server address: never commit these
+firmware/**/config.h
+
+__pycache__/
+.pytest_cache/
+*.exe
+*.obj
+
+# server settings and dependencies
+.env
+server/.env
+server/edge/.env
+node_modules/

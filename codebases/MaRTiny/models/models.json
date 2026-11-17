@@ -1,0 +1,32 @@
+{
+  "about": "Models used by the MaRTiny image server. The weights are not stored in this repository: see README.md in this folder. sha256 values are those of the files the SHaDE Lab runs, so you can check that your copy is the same.",
+  "models": [
+    {
+      "name": "YOLOv8x (people detection)",
+      "file": "yolov8x.pt",
+      "bytes": null,
+      "sha256": null,
+      "obtain": "Downloaded automatically by the ultralytics package the first time MARTINY_DETECTOR=yolo runs.",
+      "license": "AGPL-3.0 (Ultralytics)",
+      "checked": false
+    },
+    {
+      "name": "BDRAR shadow detector, trained checkpoint (the file the lab runs as 3000.pth)",
+      "file": "BDRAR/ckpt/3000.pth",
+      "bytes": 170544754,
+      "sha256": "53b0b3a0e089424ba3bf5170eee6772f57b0aabdae86d369d923727a6e212fea",
+      "obtain": "From the lab's private MaRTiny-server repository (Git LFS), or the trained model the BDRAR authors link in their README.",
+      "license": "not stated by the BDRAR authors: confirm before you redistribute",
+      "checked": true
+    },
+    {
+      "name": "ResNeXt-101 32x4d backbone used by BDRAR",
+      "file": "BDRAR/resnext/resnext_101_32x4d.pth",
+      "bytes": 177319328,
+      "sha256": "f3edcb80fe5f8875ea2c9fdc21fd488f1928ab9c0d88e9527cd854fd6fe18b64",
+      "obtain": "From the lab's private MaRTiny-server repository (Git LFS), or the converted ResNeXt model the BDRAR authors link in their README.",
+      "license": "not stated: confirm before you redistribute",
+      "checked": true
+    }
+  ]
+}

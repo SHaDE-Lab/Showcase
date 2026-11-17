@@ -28,7 +28,7 @@ The two instruments behind the lab's field data, each with an interactive 3D mod
 | Tool | What it is | Paper | Code |
 |---|---|---|---|
 | **MaRTy** | Mobile human-biometeorological station: six-directional radiation (twelve sensors), air temperature, humidity, wind and GPS on a cart | Middel & Krayenhoff, *Science of The Total Environment* 687:137–151 (2019), [doi:10.1016/j.scitotenv.2019.06.085](https://doi.org/10.1016/j.scitotenv.2019.06.085) | [`codebases/MaRTy`](codebases/MaRTy) (CERN-OHL-P-2.0) |
-| **MaRTiny** | Low-cost IoT device with a globe thermometer and embedded computer vision that counts people in sun and in shade | Kulkarni *et al.*, *Frontiers in Environmental Science* 10:866240 (2022), [doi:10.3389/fenvs.2022.866240](https://doi.org/10.3389/fenvs.2022.866240) | [SHaDE-Lab/MaRTiny](https://github.com/SHaDE-Lab/MaRTiny) |
+| **MaRTiny** | Low-cost IoT device with a globe thermometer and embedded computer vision that counts people in sun and in shade | Kulkarni *et al.*, *Frontiers in Environmental Science* 10:866240 (2022), [doi:10.3389/fenvs.2022.866240](https://doi.org/10.3389/fenvs.2022.866240) | [`codebases/MaRTiny`](codebases/MaRTiny) (CERN-OHL-P-2.0) |
 
 The 3D models are drawn in code (three.js) from photographs of the devices and the sensor tables in the papers. They are illustrative:
 proportions are approximate and some mounting details are simplified.
@@ -44,7 +44,7 @@ demos/                interactive demos that run in the browser
   webmrt/               the exported LightGBM sample model running in the browser
   _3d/ marty/ martiny/  the shared three.js viewer and the MaRTy and MaRTiny 3D models
 codebases/            curated, tested example code for each project (each folder has its own README)
-  cool-routes/  visionmrt/  webmrt/  MaRTy/   (MaRTy: logger program and field guide)
+  cool-routes/  visionmrt/  webmrt/  MaRTy/  MaRTiny/   (MaRTy: logger program and field guide; MaRTiny: Arduino and ESP32-CAM firmware, image server, MongoDB tools and model notes)
 patches/              proposed change to the Cool Routes frontend (URL parameters for start and destination)
 LICENSE  NOTICE       Apache-2.0 and third-party notices
 ```
@@ -116,8 +116,8 @@ a `CITATION.cff`).
 
 ## License
 
-Code is released under the [Apache License 2.0](LICENSE), except [`codebases/MaRTy`](codebases/MaRTy), which is released under the
-[CERN Open Hardware Licence v2, Permissive (CERN-OHL-P-2.0)](codebases/MaRTy/LICENSE) because it describes a hardware instrument.
+Code is released under the [Apache License 2.0](LICENSE), except [`codebases/MaRTy`](codebases/MaRTy) and [`codebases/MaRTiny`](codebases/MaRTiny), which are released under the
+[CERN Open Hardware Licence v2, Permissive (CERN-OHL-P-2.0)](codebases/MaRTy/LICENSE) because they describe hardware instruments.
 Third-party material keeps its own license (see [NOTICE](NOTICE)).
 
 ## Contact

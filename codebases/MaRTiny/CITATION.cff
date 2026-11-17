@@ -1,0 +1,28 @@
+cff-version: 1.2.0
+message: "If you use MaRTiny or its firmware, please cite the MaRTiny paper."
+title: "MaRTiny: firmware for a low-cost biometeorological sensing device with embedded computer vision"
+type: software
+authors:
+  - name: "The SHaDE Lab, Arizona State University"
+repository-code: "https://github.com/SHaDE-Lab/Showcase/tree/main/codebases/MaRTiny"
+license: CERN-OHL-P-2.0
+# TODO: confirm the author list for this release with the lab.
+preferred-citation:
+  type: article
+  title: "MaRTiny: A Low-Cost Biometeorological Sensing Device With Embedded Computer Vision for Urban Climate Research"
+  authors:
+    - family-names: Kulkarni
+      given-names: Karthik K.
+    - family-names: Schneider
+      given-names: Florian A.
+    - family-names: Gowda
+      given-names: Tejaswi
+    - family-names: Jayasuriya
+      given-names: Suren
+    - family-names: Middel
+      given-names: Ariane
+  journal: "Frontiers in Environmental Science"
+  volume: 10
+  issue: 866240
+  year: 2022
+  doi: "10.3389/fenvs.2022.866240"

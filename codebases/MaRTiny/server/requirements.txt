@@ -1,0 +1,15 @@
+# Image server (Python 3.10+)
+flask>=2.3
+pillow>=10
+numpy>=1.24
+python-dotenv>=1.0
+pymongo>=4.6            # needed when MONGO_URL is set
+
+# Models (install what you use)
+torch>=2.0              # shadow detection, and the torchvision detector
+torchvision>=0.15
+# ultralytics>=8.0      # only for MARTINY_DETECTOR=yolo. AGPL-3.0: see models/README.md
+
+# Optional
+# sentry-sdk[flask]     # only if you set SENTRY_DSN
+# pytest                # to run the tests
